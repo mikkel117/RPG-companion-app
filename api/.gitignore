@@ -23,3 +23,5 @@ packages/
 # Ignore other files
 *.DS_Store
 *.lock.json
+
+appsettings.Development.json
