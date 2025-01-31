@@ -7,9 +7,10 @@ namespace api.Models
 {
     public class User
     {
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public string Username { get; set; }
-        public string PasswordHash { get; set; }
-        public List<Character> Characters { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public ICollection<Character>? Characters { get; }
     }
 }

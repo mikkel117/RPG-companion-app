@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using api.Models;
+using api.DTO;
+using api.Services;
 
 namespace api.Controllers
 {
@@ -72,15 +74,39 @@ namespace api.Controllers
             return NoContent();
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserRegisterDTO registerDTO)
         {
-            _context.Users.Add(user);
+            if (_context.Users.Any(u => u.Username == registerDTO.Username))
+                return BadRequest("Username already exists");
+
+            PasswordHasher.CreatePasswordHash(registerDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            var newUser = new User
+            {
+                Username = registerDTO.Username,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return Ok("Registration successful");
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDTO loginDTO)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
+            if (user == null)
+                return BadRequest("user not found.");
+
+            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
+            if (!isValid)
+                return BadRequest("userName or Invalid password");
+
+            return Ok(user);
         }
 
         // DELETE: api/User/5

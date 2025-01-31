@@ -19,27 +19,12 @@ namespace api.Models
         public DbSet<User> Users { get; set; }
 
 
-        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Character>()
-                .HasOne(c => c.Inventory)
-                .WithOne(i => i.Character)
-                .HasForeignKey<Inventory>(i => i.CharacterId);
-
-            modelBuilder.Entity<Character>()
-                .HasMany(c => c.Quests)
-                .WithOne(q => q.Character)
-                .HasForeignKey(q => q.CharacterId);
-
-            modelBuilder.Entity<Character>()
-                .HasMany(c => c.Notes)
-                .WithOne(n => n.Character)
-                .HasForeignKey(n => n.CharacterId);
-
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Characters)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId);
-        } */
+        }
     }
 }

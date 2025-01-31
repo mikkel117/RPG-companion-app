@@ -20,8 +20,8 @@ namespace api.Models
         public int Charisma { get; set; } = 0;
 
         public Inventory Inventory { get; set; }
-        public List<Quest> Quests { get; set; }
-        public List<Note> Notes { get; set; }
+        public ICollection<Quest>? Quests { get; set; }
+        public ICollection<Note>? Notes { get; set; }
 
 
         public int UserId { get; set; }
