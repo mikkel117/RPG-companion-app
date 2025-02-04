@@ -32,22 +32,29 @@ namespace api.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/User/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
 
-            return user;
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        // PUT: api/User/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -80,73 +87,84 @@ namespace api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDTO registerDTO)
         {
-            if (_context.Users.Any(u => u.Username == registerDTO.Username))
-                return BadRequest("Username already exists");
-
-            PasswordHasher.CreatePasswordHash(registerDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            var newUser = new User
+            try
             {
-                Username = registerDTO.Username,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
-            };
 
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
+                if (_context.Users.Any(u => u.Username == registerDTO.Username))
+                    return BadRequest("Username already exists");
 
-            return Ok("Registration successful");
+                PasswordHasher.CreatePasswordHash(registerDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                var newUser = new User
+                {
+                    Username = registerDTO.Username,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt
+                };
+
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                return Ok("Registration successful");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
-
-        /* [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO loginDTO)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
-            if (user == null)
-                return BadRequest("user not found.");
-
-            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
-            if (!isValid)
-                return BadRequest("userName or Invalid password");
-
-            return Ok(user);
-        } */
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO loginDTO)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
-            if (user == null)
-                return BadRequest("user not found.");
-
-            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
-            if (!isValid)
-                return BadRequest("userName or Invalid password");
-
-            var token = _tokenService.GenerateJwtToken(user);
-
-            return Ok(new
+            try
             {
-                token,
-                expiresAt = DateTime.UtcNow.AddMinutes(60),
-                username = user.Username,
-            });
+
+                var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
+                if (user == null)
+                    return BadRequest("user not found.");
+
+                bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
+                if (!isValid)
+                    return BadRequest("userName or Invalid password");
+
+                var token = _tokenService.GenerateJwtToken(user);
+
+                return Ok(new
+                {
+                    token,
+                    expiresAt = DateTime.UtcNow.AddMinutes(60),
+                    id = user.UserId,
+                    username = user.Username
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
-        // DELETE: api/User/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Authorize]
