@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Models;
 using api.DTO;
 using api.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -16,10 +17,12 @@ namespace api.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly TokenService _tokenService;
 
-        public UserController(AppDbContext context)
+        public UserController(AppDbContext context, TokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         // GET: api/User
@@ -95,7 +98,7 @@ namespace api.Controllers
             return Ok("Registration successful");
         }
 
-        [HttpPost("login")]
+        /* [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO loginDTO)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
@@ -107,6 +110,27 @@ namespace api.Controllers
                 return BadRequest("userName or Invalid password");
 
             return Ok(user);
+        } */
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDTO loginDTO)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
+            if (user == null)
+                return BadRequest("user not found.");
+
+            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
+            if (!isValid)
+                return BadRequest("userName or Invalid password");
+
+            var token = _tokenService.GenerateJwtToken(user);
+
+            return Ok(new
+            {
+                token,
+                expiresAt = DateTime.UtcNow.AddMinutes(60),
+                username = user.Username,
+            });
         }
 
         // DELETE: api/User/5
@@ -123,6 +147,13 @@ namespace api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("You are authorized");
         }
 
         private bool UserExists(int id)
