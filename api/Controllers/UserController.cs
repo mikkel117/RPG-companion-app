@@ -9,6 +9,7 @@ using api.Models;
 using api.DTO;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
@@ -116,31 +117,29 @@ namespace api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDTO loginDTO)
         {
-            try
+            /* try
+            { */
+            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
+            if (user == null)
+                return BadRequest("user not found.");
+
+            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
+            if (!isValid)
+                return BadRequest("userName or Invalid password");
+
+            var token = _tokenService.GenerateJwtToken(user);
+
+            return Ok(new
             {
-
-                var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
-                if (user == null)
-                    return BadRequest("user not found.");
-
-                bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
-                if (!isValid)
-                    return BadRequest("userName or Invalid password");
-
-                var token = _tokenService.GenerateJwtToken(user);
-
-                return Ok(new
-                {
-                    token,
-                    expiresAt = DateTime.UtcNow.AddMinutes(60),
-                    id = user.UserId,
-                    username = user.Username
-                });
-            }
-            catch (Exception ex)
+                token,
+                id = user.UserId,
+                username = user.Username
+            });
+            /* } */
+            /* catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
-            }
+            } */
         }
 
         [Authorize]
@@ -164,6 +163,20 @@ namespace api.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("renew-token")]
+        public IActionResult RenewToken([FromBody] string token)
+        {
+            try
+            {
+                var newToken = _tokenService.RenewToken(token);
+                return Ok(new { token = newToken });
+            }
+            catch (SecurityTokenException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
             }
         }
 

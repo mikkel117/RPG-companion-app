@@ -21,4 +21,9 @@ namespace api.DTO
         public required string Username { get; set; }
         public required string Password { get; set; }
     }
+
+    public class TokenRequestDTO
+    {
+        public string Token { get; set; } = string.Empty;
+    }
 }
