@@ -85,63 +85,6 @@ namespace api.Controllers
             return NoContent();
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterDTO registerDTO)
-        {
-            try
-            {
-
-                if (_context.Users.Any(u => u.Username == registerDTO.Username))
-                    return BadRequest("Username already exists");
-
-                PasswordHasher.CreatePasswordHash(registerDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-                var newUser = new User
-                {
-                    Username = registerDTO.Username,
-                    PasswordHash = passwordHash,
-                    PasswordSalt = passwordSalt
-                };
-
-                _context.Users.Add(newUser);
-                await _context.SaveChangesAsync();
-
-                return Ok("Registration successful");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error");
-            }
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO loginDTO)
-        {
-            /* try
-            { */
-            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
-            if (user == null)
-                return BadRequest("user not found.");
-
-            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
-            if (!isValid)
-                return BadRequest("userName or Invalid password");
-
-            var token = _tokenService.GenerateJwtToken(user);
-
-            return Ok(new
-            {
-                token,
-                id = user.UserId,
-                username = user.Username
-            });
-            /* } */
-            /* catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error");
-            } */
-        }
-
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
@@ -163,20 +106,6 @@ namespace api.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost("renew-token")]
-        public IActionResult RenewToken([FromBody] string token)
-        {
-            try
-            {
-                var newToken = _tokenService.RenewToken(token);
-                return Ok(new { token = newToken });
-            }
-            catch (SecurityTokenException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
             }
         }
 
