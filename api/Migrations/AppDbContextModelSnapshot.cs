@@ -29,9 +29,11 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CharacterId"));
 
-                    b.Property<string>("CharacterClass")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CharacterClass")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CharacterRace")
+                        .HasColumnType("int");
 
                     b.Property<int>("Charisma")
                         .HasColumnType("int");
@@ -68,25 +70,6 @@ namespace api.Migrations
                     b.ToTable("Characters");
                 });
 
-            modelBuilder.Entity("api.Models.Inventory", b =>
-                {
-                    b.Property<int>("InventoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InventoryId"));
-
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("InventoryId");
-
-                    b.HasIndex("CharacterId")
-                        .IsUnique();
-
-                    b.ToTable("Inventories");
-                });
-
             modelBuilder.Entity("api.Models.Item", b =>
                 {
                     b.Property<int>("ItemId")
@@ -95,12 +78,12 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ItemId"));
 
+                    b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InventoryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,7 +98,7 @@ namespace api.Migrations
 
                     b.HasKey("ItemId");
 
-                    b.HasIndex("InventoryId");
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("Item");
                 });
@@ -154,7 +137,7 @@ namespace api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestId"));
 
-                    b.Property<int?>("CharacterId")
+                    b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Completed")
@@ -215,26 +198,15 @@ namespace api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("api.Models.Inventory", b =>
+            modelBuilder.Entity("api.Models.Item", b =>
                 {
                     b.HasOne("api.Models.Character", "Character")
-                        .WithOne("Inventory")
-                        .HasForeignKey("api.Models.Inventory", "CharacterId")
+                        .WithMany("Items")
+                        .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Character");
-                });
-
-            modelBuilder.Entity("api.Models.Item", b =>
-                {
-                    b.HasOne("api.Models.Inventory", "Inventory")
-                        .WithMany("Items")
-                        .HasForeignKey("InventoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Inventory");
                 });
 
             modelBuilder.Entity("api.Models.Note", b =>
@@ -250,24 +222,22 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.Quest", b =>
                 {
-                    b.HasOne("api.Models.Character", null)
+                    b.HasOne("api.Models.Character", "Character")
                         .WithMany("Quests")
-                        .HasForeignKey("CharacterId");
+                        .HasForeignKey("CharacterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Character");
                 });
 
             modelBuilder.Entity("api.Models.Character", b =>
                 {
-                    b.Navigation("Inventory")
-                        .IsRequired();
+                    b.Navigation("Items");
 
                     b.Navigation("Notes");
 
                     b.Navigation("Quests");
-                });
-
-            modelBuilder.Entity("api.Models.Inventory", b =>
-                {
-                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("api.Models.User", b =>

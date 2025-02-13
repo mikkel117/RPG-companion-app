@@ -56,31 +56,31 @@ namespace api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginDTO loginDTO)
+        public IActionResult Login(UserLoginDTO loginDTO)
         {
-            /* try
-            { */
-            var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
-            if (user == null)
-                return BadRequest("user not found.");
-
-            bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
-            if (!isValid)
-                return BadRequest("userName or Invalid password");
-
-            var token = _tokenService.GenerateJwtToken(user);
-
-            return Ok(new
+            try
             {
-                token,
-                id = user.UserId,
-                username = user.Username
-            });
-            /* } */
-            /* catch (Exception ex)
+                var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
+                if (user == null)
+                    return BadRequest("user not found.");
+
+                bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
+                if (!isValid)
+                    return BadRequest("userName or Invalid password");
+
+                var token = _tokenService.GenerateJwtToken(user);
+
+                return Ok(new
+                {
+                    token,
+                    id = user.UserId,
+                    username = user.Username
+                });
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error");
-            } */
+            }
         }
 
         [HttpPost("renew-token")]

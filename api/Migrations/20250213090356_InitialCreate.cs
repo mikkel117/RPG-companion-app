@@ -32,7 +32,8 @@ namespace api.Migrations
                     CharacterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CharacterClass = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CharacterClass = table.Column<int>(type: "int", nullable: false),
+                    CharacterRace = table.Column<int>(type: "int", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     Health = table.Column<int>(type: "int", nullable: false),
                     Strength = table.Column<int>(type: "int", nullable: false),
@@ -54,18 +55,22 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Inventories",
+                name: "Item",
                 columns: table => new
                 {
-                    InventoryId = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Rarity = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inventories", x => x.InventoryId);
+                    table.PrimaryKey("PK_Item", x => x.ItemId);
                     table.ForeignKey(
-                        name: "FK_Inventories_Characters_CharacterId",
+                        name: "FK_Item_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
                         principalColumn: "CharacterId",
@@ -103,7 +108,7 @@ namespace api.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Reward = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Completed = table.Column<bool>(type: "bit", nullable: false),
-                    CharacterId = table.Column<int>(type: "int", nullable: true)
+                    CharacterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,29 +117,7 @@ namespace api.Migrations
                         name: "FK_Quests_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "CharacterId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Item",
-                columns: table => new
-                {
-                    ItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Rarity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InventoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Item", x => x.ItemId);
-                    table.ForeignKey(
-                        name: "FK_Item_Inventories_InventoryId",
-                        column: x => x.InventoryId,
-                        principalTable: "Inventories",
-                        principalColumn: "InventoryId",
+                        principalColumn: "CharacterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -144,15 +127,9 @@ namespace api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Inventories_CharacterId",
-                table: "Inventories",
-                column: "CharacterId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Item_InventoryId",
+                name: "IX_Item_CharacterId",
                 table: "Item",
-                column: "InventoryId");
+                column: "CharacterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notes_CharacterId",
@@ -176,9 +153,6 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Quests");
-
-            migrationBuilder.DropTable(
-                name: "Inventories");
 
             migrationBuilder.DropTable(
                 name: "Characters");
