@@ -12,5 +12,7 @@ namespace api.Models
         public string Description { get; set; }
         public string Reward { get; set; }
         public bool Completed { get; set; } = false;
+        public int CharacterId { get; set; }
+        public Character Character { get; set; }
     }
 }

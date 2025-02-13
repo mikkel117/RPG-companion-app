@@ -12,9 +12,7 @@ namespace api.Models
         public string Description { get; set; }
         public int Quantity { get; set; } = 1;
         public string Rarity { get; set; }
-
-        public int InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
-
+        public int CharacterId { get; set; }
+        public Character Character { get; set; }
     }
 }
