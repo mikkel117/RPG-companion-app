@@ -3,14 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+public enum CharacterClassEnum
+{
+    Barbarian,
+    Fighter,
+    Sorcerer,
+}
+
+public enum CharacterRaceEnum
+{
+    Human,
+    Elf,
+}
+
 namespace api.Models
 {
     public class Character
     {
         public int CharacterId { get; set; }
         public string Name { get; set; }
-        public string CharacterClass { get; set; }
-        public int Level { get; set; } = 1;
+        public CharacterClassEnum CharacterClass { get; set; }
+        public CharacterRaceEnum CharacterRace { get; set; }
+        public int Level
+        { get; set; } = 1;
         public int Health { get; set; }
 
         public int Strength { get; set; } = 0;
@@ -19,7 +34,7 @@ namespace api.Models
         public int Wisdom { get; set; } = 0;
         public int Charisma { get; set; } = 0;
 
-        public Inventory Inventory { get; set; }
+        public ICollection<Item>? Items { get; set; }
         public ICollection<Quest>? Quests { get; set; }
         public ICollection<Note>? Notes { get; set; }
 
