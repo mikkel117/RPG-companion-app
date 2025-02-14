@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -63,7 +64,15 @@ namespace api.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    Rarity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rarity = table.Column<int>(type: "int", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    StrengthModifier = table.Column<int>(type: "int", nullable: false),
+                    DexterityModifier = table.Column<int>(type: "int", nullable: false),
+                    IntelligenceModifier = table.Column<int>(type: "int", nullable: false),
+                    WisdomModifier = table.Column<int>(type: "int", nullable: false),
+                    CharismaModifier = table.Column<int>(type: "int", nullable: false),
+                    ConstitutionModifier = table.Column<int>(type: "int", nullable: false),
+                    IsEquipped = table.Column<bool>(type: "bit", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -85,6 +94,7 @@ namespace api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CharacterId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
