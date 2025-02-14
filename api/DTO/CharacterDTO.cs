@@ -29,38 +29,26 @@ namespace api.DTO
     {
         public int CharacterId { get; set; }
         public int UserId { get; set; }
-        public ICollection<GetItemDTO> Items { get; set; }
+        public ICollection<GetItemDTO> Items { get; set; } = [];
+        public ICollection<GetQuestDTO> Quests { get; set; } = [];
+        public ICollection<GetNoteDTO> Notes { get; set; } = [];
     }
-
-    public class UpdateCharacterDTO : CharacterDTO
-    {
-        public int CharacterId { get; set; }
-    }
-
     public class UpdateCharacterHealthDTO
     {
-        public int CharacterId { get; set; }
         public int Health { get; set; }
     }
 
     public class UpdateCharacterLevelDTO
     {
-        public int CharacterId { get; set; }
         public int Level { get; set; }
     }
 
     public class UpdateCharacterStatsDTO
     {
-        public int? CharacterId { get; set; }
         public int? Strength { get; set; }
         public int? Dexterity { get; set; }
         public int? Intelligence { get; set; }
         public int? Wisdom { get; set; }
         public int? Charisma { get; set; }
-    }
-
-    public class DeleteCharacterDTO
-    {
-        public int CharacterId { get; set; }
     }
 }

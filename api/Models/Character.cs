@@ -21,7 +21,7 @@ namespace api.Models
     public class Character
     {
         public int CharacterId { get; set; }
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public CharacterClassEnum CharacterClass { get; set; }
         public CharacterRaceEnum CharacterRace { get; set; }
         public int Level
@@ -40,7 +40,7 @@ namespace api.Models
 
 
         public int UserId { get; set; }
-        public User User { get; set; }
+        public User User { get; set; } = new User();
 
     }
 }

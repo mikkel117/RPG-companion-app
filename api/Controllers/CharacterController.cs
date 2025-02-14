@@ -31,40 +31,40 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            var characters = await _context.Characters.Include(c => c.Items).ToListAsync();
-            /* TypeAdapterConfig<Character, getCharacterDTO>.NewConfig()
-            .Map(dest => dest.Items, src => src.Items.Adapt<ICollection<CallItemDTO>>()); */
+            var characters = await _context.Characters.Include(c => c.Items).Include(c => c.Quests).Include(c => c.Notes).ToListAsync();
             var characterDTOs = characters.Adapt<IEnumerable<getCharacterDTO>>();
             return characterDTOs.ToList();
-
-            //return await _context.Characters.ToListAsync();
         }
 
         // GET: api/Character/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Character>> GetCharacter(int id)
+        public async Task<ActionResult<getCharacterDTO>> GetCharacter(int id)
         {
-            var character = await _context.Characters.FindAsync(id);
+            if (_context.Characters == null)
+            {
+                return NotFound();
+            }
 
+            var character = await _context.Characters.Include(c => c.Items).Include(c => c.Quests).Include(c => c.Notes).FirstOrDefaultAsync(c => c.CharacterId == id);
             if (character == null)
             {
                 return NotFound();
             }
 
-            return character;
+            var characterDTO = character.Adapt<getCharacterDTO>();
+            return characterDTO;
         }
 
-        // PUT: api/Character/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCharacter(int id, Character character)
+        [HttpPut("{id}/health")]
+        public async Task<IActionResult> UpdateCharacterHealth(int id, UpdateCharacterHealthDTO updateCharacterHealthDTO)
         {
-            if (id != character.CharacterId)
+            var character = await _context.Characters.FindAsync(id);
+            if (character == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(character).State = EntityState.Modified;
+            character.Health = updateCharacterHealthDTO.Health;
 
             try
             {
@@ -84,6 +84,86 @@ namespace api.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}/level")]
+        public async Task<IActionResult> UpdateCharacterLevel(int id, UpdateCharacterLevelDTO updateCharacterLevelDTO)
+        {
+            var character = await _context.Characters.FindAsync(id);
+            if (character == null)
+            {
+                return NotFound();
+            }
+
+            character.Level = updateCharacterLevelDTO.Level;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CharacterExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}/stats")]
+        public async Task<IActionResult> UpdateCharacterStats(int id, UpdateCharacterStatsDTO updateCharacterStatsDTO)
+        {
+            var character = await _context.Characters.FindAsync(id);
+            if (character == null)
+            {
+                return NotFound();
+            }
+
+            if (updateCharacterStatsDTO.Strength != null)
+            {
+                character.Strength = (int)updateCharacterStatsDTO.Strength;
+            }
+            if (updateCharacterStatsDTO.Dexterity != null)
+            {
+                character.Dexterity = (int)updateCharacterStatsDTO.Dexterity;
+            }
+            if (updateCharacterStatsDTO.Intelligence != null)
+            {
+                character.Intelligence = (int)updateCharacterStatsDTO.Intelligence;
+            }
+            if (updateCharacterStatsDTO.Wisdom != null)
+            {
+                character.Wisdom = (int)updateCharacterStatsDTO.Wisdom;
+            }
+            if (updateCharacterStatsDTO.Charisma != null)
+            {
+                character.Charisma = (int)updateCharacterStatsDTO.Charisma;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CharacterExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         // POST: api/Character
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
