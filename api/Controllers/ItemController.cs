@@ -26,12 +26,31 @@ namespace api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Item>>> GetItem()
         {
-            return await _context.Item.ToListAsync();
+            var items = await _context.Item.ToListAsync();
+            var itemDto = items.Select(item => new GetItemDTO
+            {
+                ItemId = item.ItemId,
+                Name = item.Name,
+                Description = item.Description,
+                Quantity = item.Quantity,
+                Rarity = item.Rarity.ToString(),
+                Category = item.Category.ToString(),
+                StrengthModifier = item.StrengthModifier,
+                DexterityModifier = item.DexterityModifier,
+                IntelligenceModifier = item.IntelligenceModifier,
+                WisdomModifier = item.WisdomModifier,
+                CharismaModifier = item.CharismaModifier,
+                ConstitutionModifier = item.ConstitutionModifier,
+                IsEquipped = item.IsEquipped,
+                CharacterId = item.CharacterId
+            }).ToList();
+
+            return Ok(itemDto);
         }
 
         // GET: api/Item/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetItem(int id)
+        public async Task<ActionResult<ItemDTO>> GetItem(int id)
         {
             var item = await _context.Item.FindAsync(id);
 
@@ -40,38 +59,105 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            return item;
+            var itemDto = new GetItemDTO
+            {
+                ItemId = item.ItemId,
+                Name = item.Name,
+                Description = item.Description,
+                Quantity = item.Quantity,
+                Rarity = item.Rarity.ToString(),
+                Category = item.Category.ToString(),
+                StrengthModifier = item.StrengthModifier,
+                DexterityModifier = item.DexterityModifier,
+                IntelligenceModifier = item.IntelligenceModifier,
+                WisdomModifier = item.WisdomModifier,
+                CharismaModifier = item.CharismaModifier,
+                ConstitutionModifier = item.ConstitutionModifier,
+                IsEquipped = item.IsEquipped,
+                CharacterId = item.CharacterId
+            };
+
+            return itemDto;
         }
 
-        // PUT: api/Item/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutItem(int id, Item item)
+        [HttpPut("{id}/quantity")]
+        public async Task<ActionResult<UpdateQuantityDTO>> UpdateItemQuantity(int id, UpdateQuantityDTO updateQuantityDTO)
         {
-            if (id != item.ItemId)
+            var item = await _context.Item.FindAsync(id);
+
+            if (item == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(item).State = EntityState.Modified;
+            item.Quantity = updateQuantityDTO.Quantity;
 
-            try
+            await _context.SaveChangesAsync();
+
+            return updateQuantityDTO;
+        }
+
+        [HttpPut("{id}/stats")]
+        public async Task<ActionResult<UpdateItemStatsDTO>> UpdateItemStats(int id, UpdateItemStatsDTO updateItemStatsDTO)
+        {
+            var item = await _context.Item.FindAsync(id);
+
+            if (item == null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
+            item.StrengthModifier = updateItemStatsDTO.StrengthModifier ?? item.StrengthModifier;
+            item.DexterityModifier = updateItemStatsDTO.DexterityModifier ?? item.DexterityModifier;
+            item.IntelligenceModifier = updateItemStatsDTO.IntelligenceModifier ?? item.IntelligenceModifier;
+            item.WisdomModifier = updateItemStatsDTO.WisdomModifier ?? item.WisdomModifier;
+            item.CharismaModifier = updateItemStatsDTO.CharismaModifier ?? item.CharismaModifier;
+            item.ConstitutionModifier = updateItemStatsDTO.ConstitutionModifier ?? item.ConstitutionModifier;
+
+            await _context.SaveChangesAsync();
+
+            return updateItemStatsDTO;
+        }
+
+        [HttpPut("{id}/rarity")]
+        public async Task<ActionResult<UpdateItemRarityDTO>> UpdateItemRarity(int id, UpdateItemRarityDTO updateItemRarityDTO)
+        {
+            var item = await _context.Item.FindAsync(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var RarityCheck = Enum.TryParse(updateItemRarityDTO.Rarity, out RarityEnum rarityEnum);
+
+            if (!RarityCheck)
+            {
+                return BadRequest("Invalid Rarity");
+            }
+
+            item.Rarity = rarityEnum;
+
+            await _context.SaveChangesAsync();
+
+            return updateItemRarityDTO;
+        }
+
+        [HttpPut("{id}/Equipped")]
+        public async Task<ActionResult<UpdateItemEquippedDTO>> UpdateItemEquipped(int id, UpdateItemEquippedDTO updateItemEquippedDTO)
+        {
+            var item = await _context.Item.FindAsync(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            item.IsEquipped = updateItemEquippedDTO.IsEquipped;
+
+            await _context.SaveChangesAsync();
+
+            return updateItemEquippedDTO;
         }
 
         // POST: api/Item
@@ -79,11 +165,41 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateItemDTO>> PostItem(CreateItemDTO itemDto)
         {
-            var item = itemDto.Adapt<Item>();
+            var RarityCheck = Enum.TryParse(itemDto.Rarity, out RarityEnum rarityEnum);
+            var CategoryCheck = Enum.TryParse(itemDto.Category, out ItemCategoryEnum categoryEnum);
+
+            if (!RarityCheck || !CategoryCheck)
+            {
+                return BadRequest("Invalid Rarity or Category");
+            }
+
+            var newItem = new Item
+            {
+                Name = itemDto.Name ?? "Unknown",
+                Description = itemDto.Description ?? "",
+                Quantity = itemDto.Quantity,
+                Rarity = rarityEnum,
+                Category = categoryEnum,
+                StrengthModifier = itemDto.StrengthModifier,
+                DexterityModifier = itemDto.DexterityModifier,
+                IntelligenceModifier = itemDto.IntelligenceModifier,
+                WisdomModifier = itemDto.WisdomModifier,
+                CharismaModifier = itemDto.CharismaModifier,
+                ConstitutionModifier = itemDto.ConstitutionModifier,
+                IsEquipped = itemDto.IsEquipped,
+                CharacterId = itemDto.CharacterId
+            };
+
+            var item = newItem.Adapt<Item>();
             _context.Item.Add(item);
             await _context.SaveChangesAsync();
 
+            /* var item = itemDto.Adapt<Item>();
+            _context.Item.Add(item);
+            await _context.SaveChangesAsync(); */
+
             return CreatedAtAction("GetItem", new { id = item.ItemId }, item);
+            /* return Ok("okay"); */
         }
 
         // DELETE: api/Item/5
