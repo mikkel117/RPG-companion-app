@@ -18,6 +18,7 @@ namespace api.DTO
 
     public class GetNoteDTO : NoteDTO
     {
+        public DateTime Created { get; set; } = DateTime.Now;
         public int NoteId { get; set; }
         public int CharacterId { get; set; }
     }
