@@ -37,7 +37,7 @@ namespace api.DTO
         public int CharacterId { get; set; }
     }
 
-    public class UpdateQuantityDTO
+    public class UpdateItemQuantityDTO
     {
         public int Quantity { get; set; }
     }

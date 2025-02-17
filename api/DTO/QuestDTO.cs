@@ -7,10 +7,9 @@ namespace api.DTO
 {
     public class QuestDTO
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Reward { get; set; }
-        public bool Completed { get; set; }
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public string Reward { get; set; } = "";
     }
 
     public class CreateQuestDTO : QuestDTO
@@ -22,16 +21,18 @@ namespace api.DTO
     {
         public int QuestId { get; set; }
         public int CharacterId { get; set; }
+        public bool Completed { get; set; }
     }
 
-    public class UpdateQuestDTO : QuestDTO
+    public class UpdateQuestDTO
     {
-        public int QuestId { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public string? Reward { get; set; }
     }
 
     public class UpdateQuestCompletedDTO
     {
-        public int QuestId { get; set; }
         public bool Completed { get; set; }
     }
 }

@@ -37,10 +37,6 @@ namespace api.Models
         public RarityEnum Rarity { get; set; }
         public ItemCategoryEnum Category { get; set; }
 
-        /* public string RarityString => Rarity.ToString();
-        public string CategoryString => Category.ToString(); */
-
-
         public int StrengthModifier { get; set; } = 0;
         public int DexterityModifier { get; set; } = 0;
         public int IntelligenceModifier { get; set; } = 0;

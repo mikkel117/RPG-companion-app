@@ -23,10 +23,21 @@ namespace api.Controllers
         }
 
         // GET: api/Item
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItem()
+        [HttpGet("character/{characterId}")]
+        public async Task<ActionResult<IEnumerable<GetItemDTO>>> GetItemsForCharacter(int characterId)
         {
-            var items = await _context.Item.ToListAsync();
+            if (_context.Quests == null)
+            {
+                return NotFound();
+            }
+
+            var items = await _context.Item.Where(q => q.CharacterId == characterId).ToListAsync();
+
+            if (items.Count == 0)
+            {
+                return NotFound($"No items found for character with ID {characterId}");
+            }
+
             var itemDto = items.Select(item => new GetItemDTO
             {
                 ItemId = item.ItemId,
@@ -44,8 +55,8 @@ namespace api.Controllers
                 IsEquipped = item.IsEquipped,
                 CharacterId = item.CharacterId
             }).ToList();
+            return itemDto.ToList();
 
-            return Ok(itemDto);
         }
 
         // GET: api/Item/5
@@ -81,7 +92,7 @@ namespace api.Controllers
         }
 
         [HttpPut("{id}/quantity")]
-        public async Task<ActionResult<UpdateQuantityDTO>> UpdateItemQuantity(int id, UpdateQuantityDTO updateQuantityDTO)
+        public async Task<ActionResult<UpdateItemQuantityDTO>> UpdateItemQuantity(int id, UpdateItemQuantityDTO updateItemQuantityDTO)
         {
             var item = await _context.Item.FindAsync(id);
 
@@ -90,11 +101,11 @@ namespace api.Controllers
                 return NotFound();
             }
 
-            item.Quantity = updateQuantityDTO.Quantity;
+            item.Quantity = updateItemQuantityDTO.Quantity;
 
             await _context.SaveChangesAsync();
 
-            return updateQuantityDTO;
+            return updateItemQuantityDTO;
         }
 
         [HttpPut("{id}/stats")]
@@ -163,10 +174,10 @@ namespace api.Controllers
         // POST: api/Item
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CreateItemDTO>> PostItem(CreateItemDTO itemDto)
+        public async Task<ActionResult<CreateItemDTO>> PostItem(CreateItemDTO itemDTO)
         {
-            var RarityCheck = Enum.TryParse(itemDto.Rarity, out RarityEnum rarityEnum);
-            var CategoryCheck = Enum.TryParse(itemDto.Category, out ItemCategoryEnum categoryEnum);
+            var RarityCheck = Enum.TryParse(itemDTO.Rarity, out RarityEnum rarityEnum);
+            var CategoryCheck = Enum.TryParse(itemDTO.Category, out ItemCategoryEnum categoryEnum);
 
             if (!RarityCheck || !CategoryCheck)
             {
@@ -175,19 +186,19 @@ namespace api.Controllers
 
             var newItem = new Item
             {
-                Name = itemDto.Name ?? "Unknown",
-                Description = itemDto.Description ?? "",
-                Quantity = itemDto.Quantity,
+                Name = itemDTO.Name ?? "Unknown",
+                Description = itemDTO.Description ?? "",
+                Quantity = itemDTO.Quantity,
                 Rarity = rarityEnum,
                 Category = categoryEnum,
-                StrengthModifier = itemDto.StrengthModifier,
-                DexterityModifier = itemDto.DexterityModifier,
-                IntelligenceModifier = itemDto.IntelligenceModifier,
-                WisdomModifier = itemDto.WisdomModifier,
-                CharismaModifier = itemDto.CharismaModifier,
-                ConstitutionModifier = itemDto.ConstitutionModifier,
-                IsEquipped = itemDto.IsEquipped,
-                CharacterId = itemDto.CharacterId
+                StrengthModifier = itemDTO.StrengthModifier,
+                DexterityModifier = itemDTO.DexterityModifier,
+                IntelligenceModifier = itemDTO.IntelligenceModifier,
+                WisdomModifier = itemDTO.WisdomModifier,
+                CharismaModifier = itemDTO.CharismaModifier,
+                ConstitutionModifier = itemDTO.ConstitutionModifier,
+                IsEquipped = itemDTO.IsEquipped,
+                CharacterId = itemDTO.CharacterId
             };
 
             var item = newItem.Adapt<Item>();

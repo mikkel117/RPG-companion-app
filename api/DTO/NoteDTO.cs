@@ -7,24 +7,26 @@ namespace api.DTO
 {
     public class NoteDTO
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public required string Title { get; set; }
+        public required string Content { get; set; }
     }
 
     public class CreateNoteDTO : NoteDTO
     {
+        public DateTime Created { get; set; } = DateTime.Now;
         public int CharacterId { get; set; }
     }
 
     public class GetNoteDTO : NoteDTO
     {
         public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime? LastUpdated { get; set; }
         public int NoteId { get; set; }
         public int CharacterId { get; set; }
     }
 
     public class UpdateNoteDTO : NoteDTO
     {
-        public int NoteId { get; set; }
+        public DateTime? LastUpdated { get; set; }
     }
 }

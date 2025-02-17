@@ -51,4 +51,10 @@ namespace api.DTO
         public int? Wisdom { get; set; }
         public int? Charisma { get; set; }
     }
+
+    public class GetCharacterWithOutRelationsDTO : CharacterDTO
+    {
+        public int CharacterId { get; set; }
+        public int UserId { get; set; }
+    }
 }

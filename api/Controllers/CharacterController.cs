@@ -36,6 +36,26 @@ namespace api.Controllers
             return characterDTOs.ToList();
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<getCharacterDTO>>> GetCharactersForUser(int userId)
+        {
+            if (_context.Quests == null)
+            {
+                return NotFound();
+            }
+
+            var character = await _context.Characters.Where(q => q.UserId == userId).ToListAsync();
+
+            if (character.Count == 0)
+            {
+                return NotFound($"No character found for user with ID {userId}");
+            }
+
+            var characterDTOs = character.Adapt<IEnumerable<getCharacterDTO>>();
+            return characterDTOs.ToList();
+
+        }
+
         // GET: api/Character/5
         [HttpGet("{id}")]
         public async Task<ActionResult<getCharacterDTO>> GetCharacter(int id)
@@ -170,9 +190,25 @@ namespace api.Controllers
         [HttpPost]
         public async Task<ActionResult<CreateCharacterDTO>> PostCharacter(CreateCharacterDTO characterDTO)
         {
+            var user = await _context.Users.FindAsync(characterDTO.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
             var character = characterDTO.Adapt<Character>();
             _context.Characters.Add(character);
-            await _context.SaveChangesAsync();
+
+
+            try
+            {
+
+
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
 
             return CreatedAtAction("GetCharacter", new { id = character.CharacterId }, characterDTO);
         }
