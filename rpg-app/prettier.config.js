@@ -1,3 +1,5 @@
+const { dismissAll } = require('expo-router/build/global-state/routing');
+
 module.exports = {
   printWidth: 100,
   tabWidth: 2,
