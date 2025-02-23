@@ -62,11 +62,11 @@ namespace api.Controllers
             {
                 var user = _context.Users.FirstOrDefault(u => u.Username == loginDTO.Username);
                 if (user == null)
-                    return BadRequest("user not found.");
+                    return BadRequest(new { error = "no users" });
 
                 bool isValid = PasswordHasher.VerifyPasswordHash(loginDTO.Password, user.PasswordHash, user.PasswordSalt);
                 if (!isValid)
-                    return BadRequest("userName or Invalid password");
+                    return BadRequest(new { error = "invalid username or password" });
 
                 var token = _tokenService.GenerateJwtToken(user);
 

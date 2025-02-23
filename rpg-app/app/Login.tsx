@@ -4,9 +4,21 @@ import { Text, View, TextInput, Button, Touchable, Pressable } from 'react-nativ
 
 import { Container } from '~/components/Container';
 
+import { login } from '~/apiCalls/userLogin';
+
 export default function Login() {
   const [user, setUser] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  async function test() {
+    console.log(`Login with ${user}:${password}`);
+    const foo = await login(user, password)
+    if (!foo.success) {
+      console.log("there was a error ", foo.error);
+    } else {
+      console.log("login success", foo);
+    }
+  }
 
   return (
     <>
@@ -29,7 +41,7 @@ export default function Login() {
 
           <Pressable
             className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
-            onPressIn={() => console.log(`Login with ${user}:${password}`)}>
+            onPressIn={() => test()}>
             <Text className="text-white text-lg font-semibold text-center">Login</Text>
           </Pressable>
 
