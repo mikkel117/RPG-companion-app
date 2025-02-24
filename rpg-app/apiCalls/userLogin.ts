@@ -1,10 +1,13 @@
+import { Platform } from 'react-native';
+
 export async function login(user: string, password: string) {
   console.log(`Login with ${user}:${password}`);
+  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5028' : 'http://localhost:5028';
 
   try {
-
+    console.log('fetching');
     
-    const response = await fetch('http://10.0.2.2:5028/api/Auth/login', {
+    const response = await fetch(`${API_URL}/api/Auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import { Text, View, TextInput, Button, Touchable, Pressable } from 'react-nativ
 import { Container } from '~/components/Container';
 
 import { login } from '~/apiCalls/userLogin';
+import { setCookie, getTokenUsingCookie, setTokenUsingStorage, getTokenUsingStorage } from '~/apiCalls/tokenHandling';
 
 export default function Login() {
   const [user, setUser] = React.useState('');
@@ -17,6 +18,10 @@ export default function Login() {
       console.log("there was a error ", foo.error);
     } else {
       console.log("login success", foo);
+      /* setCookie(foo.token); */
+      //console.log('getToken:', getTokenUsingCookie());
+      setTokenUsingStorage(foo.token);
+      console.log('getToken:', await getTokenUsingStorage());
     }
   }
 
