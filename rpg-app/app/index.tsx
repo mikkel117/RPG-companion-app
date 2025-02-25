@@ -1,5 +1,5 @@
 import { Stack, Link } from 'expo-router';
-import { Text, Platform, Pressable } from 'react-native';
+import { Text, Platform, Pressable, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLogin } from '~/contexts/LoginContext';
 
@@ -26,15 +26,27 @@ export default function Home() {
     <>
       <Stack.Screen options={{ title: 'Home' }} />
       <Container>
-        <Text className="text-5xl text-rose-300">Home</Text>
+        {/* <Text className="text-5xl text-rose-300">Home</Text> */}
         {/* <Link href="/Login">click me</Link> */}
-        <Text>{loggedIn ? 'logged in' : 'not logged in'}</Text>
+        {loggedIn ? (
 
-        <Pressable
-          className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
-          onPressIn={() => setShowLoginModal(true)}>
-          <Text className="text-white text-lg font-semibold text-center">Login</Text>
-        </Pressable>
+          <View className='
+          flex-1 justify-center items-center bg-gray-100
+          '>
+            <Text className="text-5xl text-rose-300 text-center">loggedIn</Text>
+          </View>
+        ) : (
+
+          <View className='
+          flex-1 justify-center bg-gray-100
+          '>
+            <Pressable
+              className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
+              onPressIn={() => setShowLoginModal(true)}>
+              <Text className="text-white text-lg font-semibold text-center">Login</Text>
+            </Pressable>
+          </View>
+        )}
 
         <LoginModal visible={showLoginModal} onClose={() => setShowLoginModal(false)} />
       </Container>
