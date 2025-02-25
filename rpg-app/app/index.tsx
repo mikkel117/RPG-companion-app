@@ -18,10 +18,20 @@ export default function Home() {
 
       if (token != "") {
         setLoggedIn(true);
+        console.log('logged in');
+
       }
     }
     getToken();
   }, [])
+
+
+  const logout = () => {
+    setLoggedIn(false);
+    console.log('logged out');
+
+  }
+
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
@@ -34,6 +44,11 @@ export default function Home() {
           flex-1 justify-center items-center bg-gray-100
           '>
             <Text className="text-5xl text-rose-300 text-center">loggedIn</Text>
+            <Pressable
+              className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
+              onPressIn={logout}>
+              <Text className="text-white text-lg font-semibold text-center">Logout</Text>
+            </Pressable>
           </View>
         ) : (
 
