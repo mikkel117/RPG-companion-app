@@ -1,13 +1,14 @@
 import { Stack, Link } from 'expo-router';
 import { Text, Platform, Pressable } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { useLogin } from '~/contexts/LoginContext';
 
 import { Container } from '~/components/Container';
 import LoginModal from '~/components/LoginModal';
 import { getTokenUsingCookie, getTokenUsingStorage } from '~/apiCalls/tokenHandling';
 
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const { loggedIn, setLoggedIn } = useLogin();
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   useEffect(() => {
     const getToken = async () => {
