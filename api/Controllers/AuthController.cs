@@ -33,7 +33,7 @@ namespace api.Controllers
             {
 
                 if (_context.Users.Any(u => u.Username == registerDTO.Username))
-                    return BadRequest("Username already exists");
+                    return BadRequest(new { error = "Username already exists" });
 
                 PasswordHasher.CreatePasswordHash(registerDTO.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -47,7 +47,7 @@ namespace api.Controllers
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
 
-                return Ok("Registration successful");
+                return Ok(new { message = "User created" });
             }
             catch (Exception ex)
             {

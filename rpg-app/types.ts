@@ -1,8 +1,23 @@
+export enum CharacterClassEnum
+{
+    Barbarian,
+    Fighter,
+    Sorcerer,
+}
+
+export enum CharacterRaceEnum
+{
+    Human,
+    Elf,
+}
+
+
 export type characterType = {
-    id: number;
+    characterId: number;
     userId: number;
     name: string
-    class: string;
+    characterClass: CharacterClassEnum;
+    characterRace: CharacterRaceEnum;
     level: number;
     health: number;
     intelligence: number;
