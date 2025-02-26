@@ -7,7 +7,10 @@ namespace api.DTO
 {
     public class UserDTO
     {
+        public int Id { get; set; }
         public string Username { get; set; }
+        public ICollection<GetCharacterWithOutRelationsDTO> Characters { get; set; } = [];
+
     }
 
     public class UserRegisterDTO

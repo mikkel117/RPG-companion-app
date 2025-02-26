@@ -25,6 +25,7 @@ export function setCookie(token: string){
 
 export function getTokenUsingCookie(): string{
     let token = document.cookie.split(';').find((cookie) => cookie.includes('token'));
+    token = token?.split('=')[1];
     if (token){
         return token
     } else {
@@ -34,6 +35,7 @@ export function getTokenUsingCookie(): string{
 
 export function getUserIdUsingCookie(): string{
     let userId = document.cookie.split(';').find((cookie) => cookie.includes('userId'));
+    userId = userId?.split('=')[1];
     if (userId){
         return userId
     } else {
@@ -93,7 +95,8 @@ export async function setTokenUsingStorage(token: string){
 }
 
 export async function getTokenUsingStorage(): Promise<string>{  
-    const token = await AsyncStorage.getItem('token');
+    let token = await AsyncStorage.getItem('token');
+    token = token ? JSON.parse(token).token : "";
     if (token){
         return token
     } else {
@@ -103,7 +106,8 @@ export async function getTokenUsingStorage(): Promise<string>{
 }
 
 export async function getUserIdUsingStorage(): Promise<string>{
-    const userId = await AsyncStorage.getItem('userId');
+    let userId = await AsyncStorage.getItem('userId');
+    userId = userId ? JSON.parse(userId).userId : "";
     if (userId){
         return userId
     } else {

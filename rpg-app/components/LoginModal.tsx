@@ -74,7 +74,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
                         value={password}
                         onChangeText={setPassword}
                     />
-                    {error && <Text className="text-red-500 mt-2">{error}</Text>}
+                    {error !== "" && <Text className="text-red-500 mt-2">{error}</Text>}
 
                     <Pressable
                         className={`m-2 rounded-[28px] shadow-md p-4 ${fetching ? 'bg-gray-400' : 'bg-indigo-500'}`}

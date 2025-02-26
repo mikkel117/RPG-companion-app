@@ -10,6 +10,7 @@ using api.DTO;
 using api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Mapster;
 
 namespace api.Controllers
 {
@@ -28,18 +29,25 @@ namespace api.Controllers
 
         // GET: api/User
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _context.Users.Include(u => u.Characters).ToListAsync();
+            var userDTOs = users.Adapt<IEnumerable<UserDTO>>();
+
+            return userDTOs.ToList();
         }
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             try
             {
-
                 var user = await _context.Users.FindAsync(id);
 
                 if (user == null)
@@ -47,7 +55,13 @@ namespace api.Controllers
                     return NotFound();
                 }
 
-                return user;
+                var userDTO = await _context.Users.Include(u => u.Characters).FirstOrDefaultAsync(u => u.UserId == id);
+                if (userDTO == null)
+                {
+                    return NotFound();
+                }
+
+                return userDTO.Adapt<UserDTO>();
             }
             catch (Exception ex)
             {
