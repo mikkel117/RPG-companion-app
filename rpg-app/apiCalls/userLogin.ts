@@ -1,11 +1,9 @@
 import { Platform } from 'react-native';
+const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5028' : 'http://localhost:5028';
 
 export async function login(user: string, password: string) {
-  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5028' : 'http://localhost:5028';
 
   try {
-    console.log('fetching');
-    
     const response = await fetch(`${API_URL}/api/Auth/login`, {
       method: 'POST',
       headers: {
@@ -29,6 +27,4 @@ export async function login(user: string, password: string) {
     console.error('Error:', error);
     return { success: false, error: error.message };
   }
-
-
 }

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { login } from '~/apiCalls/userLogin';
 import { setCookie, setTokenUsingStorage, } from '~/apiCalls/tokenHandling';
+import { useLogin } from '~/contexts/LoginContext';
 
 interface LoginModelProps {
     visible: boolean;
@@ -15,6 +16,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [fetching, setFetching] = useState<boolean>(false);
+    const { setLoggedIn } = useLogin();
 
     async function handleLogin() {
         if (user === '' || password === '') {
@@ -24,12 +26,13 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
         setFetching(true);
         const loginData = await login(user, password);
         if (!loginData.success) {
-            console.log("there was a error ", loginData.error);
+            setError(loginData.error ? loginData.error : 'An error occurred, please try again');
         } else {
             Platform.OS === 'android' ? setTokenUsingStorage(loginData.token) : setCookie(loginData.token);
+            setLoggedIn(true);
+            closeModal();
         }
         setFetching(false);
-        closeModal();
     }
 
     function closeModal() {
@@ -58,14 +61,16 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
                         </Pressable>
                     </View>
                     <TextInput
-                        className="m-2 rounded border border-gray-300 p-2"
+                        className="m-2 rounded border p-2 text-black border-black"
                         placeholder="User"
+                        placeholderTextColor="gray"
                         value={user}
                         onChangeText={setUser}
                     />
                     <TextInput
-                        className="m-2 rounded border border-gray-300 p-2"
+                        className="m-2 rounded border border-black p-2 text-black"
                         placeholder="Password"
+                        placeholderTextColor="gray"
                         value={password}
                         onChangeText={setPassword}
                     />

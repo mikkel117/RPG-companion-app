@@ -3,53 +3,44 @@ import { Text, Platform, Pressable, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLogin } from '~/contexts/LoginContext';
 
+import { getTokenUsingCookie, getTokenUsingStorage } from '~/apiCalls/tokenHandling';
+
 import { Container } from '~/components/Container';
 import LoginModal from '~/components/LoginModal';
-import { getTokenUsingCookie, getTokenUsingStorage } from '~/apiCalls/tokenHandling';
+import UserHome from '~/components/UserHome';
 
 export default function Home() {
   const { loggedIn, setLoggedIn } = useLogin();
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const getToken = async () => {
-
       const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
-      console.log(token);
-
       if (token != "") {
         setLoggedIn(true);
-        console.log('logged in');
-
       }
+      setLoading(false);
     }
     getToken();
   }, [])
 
 
-  const logout = () => {
-    setLoggedIn(false);
-    console.log('logged out');
-
+  if (loading) {
+    return (
+      <Container>
+        <View className="flex-1 justify-center items-center bg-gray-100">
+          <Text className="text-5xl text-rose-300 text-center">Loading...</Text>
+        </View>
+      </Container>
+    )
   }
 
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
       <Container>
-        {/* <Text className="text-5xl text-rose-300">Home</Text> */}
-        {/* <Link href="/Login">click me</Link> */}
         {loggedIn ? (
-
-          <View className='
-          flex-1 justify-center items-center bg-gray-100
-          '>
-            <Text className="text-5xl text-rose-300 text-center">loggedIn</Text>
-            <Pressable
-              className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
-              onPressIn={logout}>
-              <Text className="text-white text-lg font-semibold text-center">Logout</Text>
-            </Pressable>
-          </View>
+          <UserHome />
         ) : (
 
           <View className='
