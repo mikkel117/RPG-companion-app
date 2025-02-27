@@ -31,7 +31,18 @@ const UserHome = () => {
 
     return (
         <View>
-            <Text>Welcome, {user?.username}</Text>
+            <View className="flex-row items-center justify-between bg-gray-100 w-full">
+                <Text className="text-xl md:font-bold">Welcome, {user?.username}</Text>
+                <Pressable
+                    className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-2 ml-1.5"
+                    onPressIn={logout}>
+                    <Text className="text-white font-semibold text-center">Logout</Text>
+                </Pressable>
+            </View>
+            <View className="border-b-4 border-black my-4"></View>
+            <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-2 ml-1.5">
+                <Text className="text-white font-semibold text-center">Create Character</Text>
+            </Pressable>
             <ScrollView>
                 {user?.characters.map((character) => (
                     <View key={character.characterId} className="mb-4 bg-white rounded-lg shadow-md p-4">
@@ -60,11 +71,6 @@ const UserHome = () => {
                 ))}
             </ScrollView>
 
-            <Pressable
-                className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
-                onPressIn={logout}>
-                <Text className="text-white text-lg font-semibold text-center">Logout</Text>
-            </Pressable>
         </View>
     );
 }
