@@ -29,7 +29,7 @@ export default function Home() {
     return (
       <Container>
         <View className="flex-1 justify-center items-center bg-gray-100">
-          <Text className="text-5xl text-rose-300 text-center">Loading...</Text>
+          <Text className="text-5xl text-rose-800 text-center">Loading...</Text>
         </View>
       </Container>
     )

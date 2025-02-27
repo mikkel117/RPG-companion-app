@@ -1,4 +1,4 @@
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 
 export const Container = ({ children }: { children: React.ReactNode }) => {
   return <SafeAreaView className={styles.container}>{children}</SafeAreaView>;
@@ -6,4 +6,5 @@ export const Container = ({ children }: { children: React.ReactNode }) => {
 
 const styles = {
   container: 'flex flex-1 m-6',
+  paddingTop: StatusBar.currentHeight,
 };

@@ -46,7 +46,9 @@ export function getUserIdUsingCookie(): string{
 export function clearCookies(){
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        document.cookie = cookies[i] + "=;expires" + new Date(0).toUTCString();
+        const cookie = cookies[i];
+        const cookieName = cookie.split('=')[0].trim();
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     }
 }
 
