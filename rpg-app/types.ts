@@ -11,6 +11,25 @@ export enum CharacterRaceEnum
     Elf,
 }
 
+export enum RarityEnum
+    {
+        Common,
+        Uncommon,
+        Rare,
+        VeryRare,
+        Legendary,
+        Artifact
+    }
+
+export enum ItemCategoryEnum
+    {
+        Weapon,
+        Armor,
+        Consumable,
+        Tool,
+        Miscellaneous
+    }
+
 
 export type characterType = {
     characterId: number;
@@ -32,3 +51,44 @@ export type userType = {
     username: string;
     characters: characterType[];
 };
+
+export type ItemType = {
+    itemId: number;
+    characterId: number;
+    name: string;
+    description: string;
+    quantity: number;
+    rarity: RarityEnum;
+    category: ItemCategoryEnum;
+    strengthModifier: number;
+    dexterityModifier: number;
+    intelligenceModifier: number;
+    charismaModifier: number;
+    wisdomModifier: number;
+    constitutionModifier: number;
+    isEquipped: boolean;
+}
+
+export type quests = {
+    questId: number;
+    characterId: number;
+    name: string;
+    description: string;
+    reward: string;
+    isCompleted: boolean;
+}
+
+export type noteType = {
+    noteId: number;
+    characterId: number;
+    title: string;
+    content: string;
+    lastUpdated: Date;
+    created: Date;
+}
+
+export type characterWithRelationsType = characterType & {
+    items: ItemType[];
+    quests: quests[];
+    notes: noteType[];
+}
