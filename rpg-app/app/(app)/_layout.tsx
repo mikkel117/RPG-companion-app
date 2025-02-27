@@ -3,7 +3,7 @@ import { Redirect, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { getTokenUsingStorage, getTokenUsingCookie } from "~/apiCalls/tokenHandling";
 
-export default function test() {
+export default function page() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
@@ -13,8 +13,8 @@ export default function test() {
                 setIsAuthenticated(true);
             } else {
                 setIsAuthenticated(false);
-                setLoading(false);
             }
+            setLoading(false);
         }
         getToken();
     }, []);
