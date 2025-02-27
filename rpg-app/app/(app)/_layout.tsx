@@ -1,5 +1,5 @@
 import { Text, Platform, View } from "react-native";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, Slot } from "expo-router";
 import { useEffect, useState } from "react";
 import { getTokenUsingStorage, getTokenUsingCookie } from "~/apiCalls/tokenHandling";
 
@@ -32,7 +32,9 @@ export default function page() {
     }
 
     return (
-        <Stack />
+        <Stack screenOptions={{ headerShown: false }}>
+            <Slot />
+        </Stack>
     )
 
 }
