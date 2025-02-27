@@ -9,7 +9,7 @@ import { getTokenUsingStorage, getTokenUsingCookie } from '~/apiCalls/tokenHandl
 import { Slot, Stack } from 'expo-router';
 
 export default function Layout() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  /* const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Layout() {
       }
     }
     getToken();
-  }, []);
+  }, []); */
 
   return (
     <LoginProvider>
