@@ -47,42 +47,47 @@ const UserHome = () => {
             <View className="border-b-4 border-black my-4"></View>
 
             <ScrollView className="flex-1">
-                {user?.characters.map((character) => (
-                    <View key={character.characterId} className="mb-4 bg-white rounded-lg shadow-md p-4">
+                {user?.characters?.length ? (
+                    user.characters.map((character) => (
+                        <View key={character.characterId} className="mb-4 bg-white rounded-lg shadow-md p-4">
 
-                        <View className="flex-row">
-                            <Link href={`/charter/${character.characterId}`} className="mb-2">
-                                <Text className="text-2xl font-semibold mb-2">{character.name}</Text>
-                            </Link>
-                        </View>
+                            <View className="flex-row">
+                                <Link href={`/charter/${character.characterId}`} className="mb-2">
+                                    <Text className="text-2xl font-semibold mb-2">{character.name}</Text>
+                                </Link>
+                            </View>
 
-                        <View className="justify-evenly items-center bg-gray-200 rounded-md p-3">
+                            <View className="justify-evenly items-center bg-gray-200 rounded-md p-3">
 
-                            <View className="flex-row flex-wrap justify-evenly items-center">
-                                <View className="w-1/2 mb-2">
-                                    <Text className="text-black font-bold text-lg">Class:</Text>
-                                    <Text className="font-semibold">{CharacterClassEnum[character.characterClass]}</Text>
+                                <View className="flex-row flex-wrap justify-evenly items-center">
+                                    <View className="w-1/2 mb-2">
+                                        <Text className="text-black font-bold text-lg">Class:</Text>
+                                        <Text className="font-semibold">{CharacterClassEnum[character.characterClass]}</Text>
+                                    </View>
+
+                                    <View className="w-1/2 mb-2">
+                                        <Text className="text-black font-bold text-lg">Race:</Text>
+                                        <Text className="font-semibold">{CharacterRaceEnum[character.characterRace]}</Text>
+                                    </View>
+
+                                    <View className="w-1/2">
+                                        <Text className="text-black font-bold text-lg">Level:</Text>
+                                        <Text className="font-semibold">{character.level}</Text>
+                                    </View>
+
+                                    <View className="w-1/2">
+                                        <Text className="text-black font-bold text-lg">Health:</Text>
+                                        <Text className="font-semibold">{character.health}</Text>
+                                    </View>
+
                                 </View>
-
-                                <View className="w-1/2 mb-2">
-                                    <Text className="text-black font-bold text-lg">Race:</Text>
-                                    <Text className="font-semibold">{CharacterRaceEnum[character.characterRace]}</Text>
-                                </View>
-
-                                <View className="w-1/2">
-                                    <Text className="text-black font-bold text-lg">Level:</Text>
-                                    <Text className="font-semibold">{character.level}</Text>
-                                </View>
-
-                                <View className="w-1/2">
-                                    <Text className="text-black font-bold text-lg">Health:</Text>
-                                    <Text className="font-semibold">{character.health}</Text>
-                                </View>
-
                             </View>
                         </View>
-                    </View>
-                ))}
+                    ))) : (
+                    <Text className="text-center text-2xl font-semibold">No characters found</Text>
+                )
+
+                }
             </ScrollView>
 
             <View className="border-b-4 border-black my-4"></View>

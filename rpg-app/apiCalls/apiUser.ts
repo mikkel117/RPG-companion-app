@@ -7,7 +7,7 @@ export async function getUserById(){
     const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
     const id = Platform.OS === 'android' ? await getUserIdUsingStorage() : getUserIdUsingCookie();
     try {
-        const response = await fetch(`${API_URL}/api/User/${id}`, {
+        const response = await fetch(`${API_URL}/api/User/1`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -18,6 +18,10 @@ export async function getUserById(){
         if (!response.ok) {
             return { success: false, error: data.error };
         }
+        console.log(id);
+        
+        console.log('data:', data);
+        
 
         return { success: true, data: data };
     }
