@@ -5,9 +5,11 @@ import React, { useState, useEffect } from "react";
 
 import { getCharacterById } from '~/apiCalls/apiCharacter';
 
+import { characterWithRelationsType } from '~/types';
+
 export default function page() {
     const { id } = useLocalSearchParams();
-    const [charter, setCharter] = useState<any>(null);
+    const [charter, setCharter] = useState<characterWithRelationsType>();
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -18,8 +20,25 @@ export default function page() {
                 console.error('Error:', response.error);
                 return;
             }
-            setCharter(response.data);
-            console.log('data:', response.data);
+            const charterData = new characterWithRelationsType(
+                response.data.characterId,
+                response.data.userId,
+                response.data.name,
+                response.data.characterClass,
+                response.data.characterRace,
+                response.data.level,
+                response.data.health,
+                response.data.intelligence,
+                response.data.strength,
+                response.data.dexterity,
+                response.data.charisma,
+                response.data.wisdom,
+                response.data.items,
+                response.data.quests,
+                response.data.notes
+            );
+            setCharter(charterData);
+
         }
         if (id) {
             fetchCharter();
@@ -32,9 +51,45 @@ export default function page() {
     return (
         <>
             <Stack.Screen options={{ title: 'charter' }} />
-            <View>
-                <Text>Charter {id}</Text>
+            <View className="flex-1 bg-gray-100">
+                <Text className="text-5xl text-rose-800 text-center m-4">{charter?.name}</Text>
+                <View className="p-4 bg-white rounded-lg shadow-lg">
+                    <Text>
+                        level: {charter?.level}
+                    </Text>
+                    <Text>
+                        health: {charter?.health}
+                    </Text>
+                    <Text>
+                        race: {charter?.characterRaceName}
+                    </Text>
+                    <Text>
+                        class: {charter?.characterClassName}
+                    </Text>
+                </View>
+
+                <View className="flex flex-row flex-wrap justify-between p-4 gap-1">
+                    <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Text className={statsTextStyle}>Intelligence: {charter?.intelligence}</Text>
+                    </View>
+                    <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Text className={statsTextStyle}>Strength: {charter?.strength}</Text>
+                    </View>
+                    <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Text className={statsTextStyle}>Dexterity: {charter?.dexterity}</Text>
+                    </View>
+                    <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Text className={statsTextStyle}>Charisma: {charter?.charisma}</Text>
+                    </View>
+                    <View className={`${statsWrapperStyle} w-full`}>
+                        <Text className={statsTextStyle}>Wisdom: {charter?.wisdom}</Text>
+                    </View>
+                </View>
             </View>
         </>
     );
 }
+
+
+const statsTextStyle = "text-2xl font-semibold text-center";
+const statsWrapperStyle = "border-2 border-black p-2 rounded-md";
