@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 
 import { getCharacterById } from '~/apiCalls/apiCharacter';
 
-import { characterWithRelationsType } from '~/types';
+import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
 
 export default function page() {
     const { id } = useLocalSearchParams();
@@ -20,24 +20,7 @@ export default function page() {
                 console.error('Error:', response.error);
                 return;
             }
-            const charterData = new characterWithRelationsType(
-                response.data.characterId,
-                response.data.userId,
-                response.data.name,
-                response.data.characterClass,
-                response.data.characterRace,
-                response.data.level,
-                response.data.health,
-                response.data.intelligence,
-                response.data.strength,
-                response.data.dexterity,
-                response.data.charisma,
-                response.data.wisdom,
-                response.data.items,
-                response.data.quests,
-                response.data.notes
-            );
-            setCharter(charterData);
+            setCharter(response.data);
 
         }
         if (id) {
@@ -61,10 +44,10 @@ export default function page() {
                         health: {charter?.health}
                     </Text>
                     <Text>
-                        race: {charter?.characterRaceName}
+                        race: {CharacterClassEnum[charter?.characterRace ?? 0]}
                     </Text>
                     <Text>
-                        class: {charter?.characterClassName}
+                        class: {CharacterRaceEnum[charter?.characterClass ?? 0]}
                     </Text>
                 </View>
 

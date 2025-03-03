@@ -44,7 +44,7 @@ export enum ItemCategoryEnum
     }
 
 
-/* export type characterType = {
+export type characterType = {
     characterId: number;
     userId: number;
     name: string
@@ -57,58 +57,7 @@ export enum ItemCategoryEnum
     dexterity: number;
     charisma: number;
     wisdom: number;
-}; */
-
-export class characterType {
-    characterId: number;
-    userId: number;
-    name: string;
-    characterClass: CharacterClassEnum;
-    characterRace: CharacterRaceEnum;
-    level: number;
-    health: number;
-    intelligence: number;
-    strength: number;
-    dexterity: number;
-    charisma: number;
-    wisdom: number;
-
-    constructor(
-        characterId: number,
-        userId: number,
-        name: string,
-        characterClass: CharacterClassEnum,
-        characterRace: CharacterRaceEnum,
-        level: number,
-        health: number,
-        intelligence: number,
-        strength: number,
-        dexterity: number,
-        charisma: number,
-        wisdom: number
-    ) {
-        this.characterId = characterId;
-        this.userId = userId;
-        this.name = name;
-        this.characterClass = characterClass;
-        this.characterRace = characterRace;
-        this.level = level;
-        this.health = health;
-        this.intelligence = intelligence;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.charisma = charisma;
-        this.wisdom = wisdom;
-    }
-    get characterClassName(): string {
-        return classNames[this.characterClass] || "Unknown";
-    }
-
-    // Getter for characterRaceName
-    get characterRaceName(): string {
-        return raceNames[this.characterRace] || "Unknown";
-    }
-}
+};
 
 export type userType = {
     id: number;
@@ -151,37 +100,8 @@ export type noteType = {
     created: Date;
 }
 
-/* export type characterWithRelationsType = characterType & {
+export type characterWithRelationsType = characterType & {
     items: ItemType[];
     quests: quests[];
     notes: noteType[];
-} */
-
-export class characterWithRelationsType extends characterType {
-    items: ItemType[];
-    quests: quests[];
-    notes: noteType[];
-
-    constructor(
-        characterId: number,
-        userId: number,
-        name: string,
-        characterClass: CharacterClassEnum,
-        characterRace: CharacterRaceEnum,
-        level: number,
-        health: number,
-        intelligence: number,
-        strength: number,
-        dexterity: number,
-        charisma: number,
-        wisdom: number,
-        items: ItemType[],
-        quests: quests[],
-        notes: noteType[]
-    ) {
-        super(characterId, userId, name, characterClass, characterRace, level, health, intelligence, strength, dexterity, charisma, wisdom);
-        this.items = items;
-        this.quests = quests;
-        this.notes = notes;
-    }
 }
