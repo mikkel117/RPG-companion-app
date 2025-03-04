@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 
 import { useLogin } from '~/contexts/LoginContext';
 
-import { getUserById } from '~/apiCalls/apiUser';
-import { clearCookies, clearTokenUsingStorage } from "~/apiCalls/tokenHandling";
+import { getUserById } from '~/functions/api/apiUser';
+import { clearCookies, clearTokenUsingStorage } from "~/functions/api/tokenHandling";
 import { userType, CharacterClassEnum, CharacterRaceEnum } from "~/types";
 
 const UserHome = () => {

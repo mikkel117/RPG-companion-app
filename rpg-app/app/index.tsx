@@ -3,7 +3,7 @@ import { Text, Platform, Pressable, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useLogin } from '~/contexts/LoginContext';
 
-import { getTokenUsingCookie, getTokenUsingStorage } from '~/apiCalls/tokenHandling';
+import { getTokenUsingCookie, getTokenUsingStorage } from '~/functions/api/tokenHandling';
 
 import { Container } from '~/components/Container';
 import LoginModal from '~/components/LoginModal';

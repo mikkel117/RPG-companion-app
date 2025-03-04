@@ -1,7 +1,7 @@
 import { Text, Platform, View } from "react-native";
 import { Redirect, Stack, Slot } from "expo-router";
 import { useEffect, useState } from "react";
-import { getTokenUsingStorage, getTokenUsingCookie } from "~/apiCalls/tokenHandling";
+import { getTokenUsingStorage, getTokenUsingCookie } from "~/functions/api/tokenHandling";
 
 export default function page() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);

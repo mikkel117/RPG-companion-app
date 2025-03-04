@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { getCharacterById } from '~/apiCalls/apiCharacter';
+import { getCharacterById } from '~/functions/api/apiCharacter';
 
 import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
 
