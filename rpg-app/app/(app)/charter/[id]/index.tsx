@@ -57,38 +57,84 @@ export default function page() {
                     </Text>
                 </View>
 
+                <View className="p-4 flex justify-center items-end">
+                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4">
+                        <Text className="text-2xl font-semibold text-white">Gem</Text>
+                    </Pressable>
+                </View>
+
                 <View className="flex flex-row flex-wrap justify-between p-4 gap-1">
                     <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Pressable>
+                            <Text className={statsTextStyle}>-</Text>
+                        </Pressable>
                         <Pressable onPress={() => roll(charter?.intelligence ?? 0)}>
                             <Text className={statsTextStyle}>Intelligence: {charter?.intelligence}</Text>
                         </Pressable>
+                        <Pressable>
+                            <Text className={statsTextStyle}>+</Text>
+                        </Pressable>
                     </View>
+
                     <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Pressable>
+                            <Text className={statsTextStyle}>-</Text>
+                        </Pressable>
+
                         <Pressable onPress={() => roll(charter?.strength ?? 0)}>
                             <Text className={statsTextStyle}>Strength: {charter?.strength}</Text>
                         </Pressable>
+
+                        <Pressable>
+                            <Text className={statsTextStyle}>+</Text>
+                        </Pressable>
                     </View>
+
                     <View className={`${statsWrapperStyle} w-[48%]`}>
+                        <Pressable>
+                            <Text className={statsTextStyle}>-</Text>
+                        </Pressable>
                         <Pressable onPress={() => roll(charter?.dexterity ?? 0)}>
                             <Text className={statsTextStyle}>Dexterity: {charter?.dexterity}</Text>
                         </Pressable>
+                        <Pressable>
+                            <Text className={statsTextStyle}>+</Text>
+                        </Pressable>
                     </View>
+
                     <View className={`${statsWrapperStyle} w-[48%]`}>
+
+                        <Pressable>
+                            <Text className={statsTextStyle}>-</Text>
+                        </Pressable>
+
                         <Pressable onPress={() => roll(charter?.charisma ?? 0)}>
                             <Text className={statsTextStyle}>Charisma: {charter?.charisma}</Text>
                         </Pressable>
+
+                        <Pressable>
+                            <Text className={statsTextStyle}>+</Text>
+                        </Pressable>
                     </View>
+
                     <View className={`${statsWrapperStyle} w-full`}>
+                        <Pressable>
+                            <Text className={statsTextStyle}>-</Text>
+                        </Pressable>
                         <Pressable onPress={() => roll(charter?.wisdom ?? 0)}>
                             <Text className={statsTextStyle}>Wisdom: {charter?.wisdom}</Text>
                         </Pressable>
+
+                        <Pressable>
+                            <Text className={statsTextStyle}>+</Text>
+                        </Pressable>
                     </View>
                 </View>
-            </View>
+            </View >
         </>
     );
 }
 
 
-const statsTextStyle = "text-2xl font-semibold text-center";
-const statsWrapperStyle = "border-2 border-black p-2 rounded-md";
+const statsTextStyle = "text-2xl font-semibold";
+const statsWrapperStyle = "border-2 border-black p-2 rounded-md flex-row justify-between items-center flex-wrap";
