@@ -9,7 +9,7 @@ export function rollStat(method: "3d6" | "4d6-drop-lowest" = "3d6"): number {
     return rolls.reduce((sum, roll) => sum + roll, 0);
 }
 
-export function makeARoll(modifier: number, dice: number, sides: number = 6): { total: number, rolls: number[] } {
+export function makeARoll(modifier: number, dice: number = 1, sides: number = 6): { total: number, rolls: number[] } {
     const rolls = Array.from({ length: dice }, () => Math.floor(Math.random() * sides) + 1);
     return { total: rolls.reduce((sum, roll) => sum + roll, modifier), rolls };
 }

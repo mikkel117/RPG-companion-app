@@ -1,8 +1,8 @@
 import { Text, Platform, Modal, View, TextInput, Pressable, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-import { login, createUser } from '~/apiCalls/userLogin';
-import { setCookie, setTokenUsingStorage, } from '~/apiCalls/tokenHandling';
+import { login, createUser } from '~/functions/api/userLogin';
+import { setCookie, setTokenUsingStorage, } from '~/functions/api/tokenHandling';
 import { useLogin } from '~/contexts/LoginContext';
 
 interface LoginModelProps {

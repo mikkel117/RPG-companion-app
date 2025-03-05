@@ -1,9 +1,10 @@
 import { Stack } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { getCharacterById } from '~/functions/api/apiCharacter';
+import { makeARoll } from '~/functions/roll';
 
 import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
 
@@ -31,6 +32,11 @@ export default function page() {
 
         fetchCharter();
     }, []);
+
+    const roll = (modifier: number) => {
+        const { total, rolls } = makeARoll(modifier);
+        console.log('total:', total, 'rolls:', rolls);
+    }
     return (
         <>
             <Stack.Screen options={{ title: 'charter' }} />
@@ -53,19 +59,29 @@ export default function page() {
 
                 <View className="flex flex-row flex-wrap justify-between p-4 gap-1">
                     <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Text className={statsTextStyle}>Intelligence: {charter?.intelligence}</Text>
+                        <Pressable onPress={() => roll(charter?.intelligence ?? 0)}>
+                            <Text className={statsTextStyle}>Intelligence: {charter?.intelligence}</Text>
+                        </Pressable>
                     </View>
                     <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Text className={statsTextStyle}>Strength: {charter?.strength}</Text>
+                        <Pressable onPress={() => roll(charter?.strength ?? 0)}>
+                            <Text className={statsTextStyle}>Strength: {charter?.strength}</Text>
+                        </Pressable>
                     </View>
                     <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Text className={statsTextStyle}>Dexterity: {charter?.dexterity}</Text>
+                        <Pressable onPress={() => roll(charter?.dexterity ?? 0)}>
+                            <Text className={statsTextStyle}>Dexterity: {charter?.dexterity}</Text>
+                        </Pressable>
                     </View>
                     <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Text className={statsTextStyle}>Charisma: {charter?.charisma}</Text>
+                        <Pressable onPress={() => roll(charter?.charisma ?? 0)}>
+                            <Text className={statsTextStyle}>Charisma: {charter?.charisma}</Text>
+                        </Pressable>
                     </View>
                     <View className={`${statsWrapperStyle} w-full`}>
-                        <Text className={statsTextStyle}>Wisdom: {charter?.wisdom}</Text>
+                        <Pressable onPress={() => roll(charter?.wisdom ?? 0)}>
+                            <Text className={statsTextStyle}>Wisdom: {charter?.wisdom}</Text>
+                        </Pressable>
                     </View>
                 </View>
             </View>
