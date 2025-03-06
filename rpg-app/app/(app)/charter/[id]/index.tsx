@@ -3,7 +3,9 @@ import { useLocalSearchParams } from "expo-router";
 import { Text, View, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { getCharacterById } from '~/functions/api/apiCharacter';
+import CharterStat from "~/components/CharterStat";
+
+import { getCharacterById, updateStats } from '~/functions/api/apiCharacter';
 import { makeARoll } from '~/functions/roll';
 
 import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
@@ -12,6 +14,11 @@ export default function page() {
     const { id } = useLocalSearchParams();
     const [charter, setCharter] = useState<characterWithRelationsType>();
     const [error, setError] = useState<string | null>(null);
+    const [intelligenceStat, setIntelligenceStat] = useState<number>(0);
+    const [strengthStat, setStrengthStat] = useState<number>(0);
+    const [dexterityStat, setDexterityStat] = useState<number>(0);
+    const [charismaStat, setCharismaStat] = useState<number>(0);
+    const [wisdomStat, setWisdomStat] = useState<number>(0);
 
     useEffect(() => {
         const fetchCharter = async () => {
@@ -22,7 +29,11 @@ export default function page() {
                 return;
             }
             setCharter(response.data);
-
+            setIntelligenceStat(response.data.intelligence);
+            setStrengthStat(response.data.strength);
+            setDexterityStat(response.data.dexterity);
+            setCharismaStat(response.data.charisma);
+            setWisdomStat(response.data.wisdom);
         }
         if (id) {
             fetchCharter();
@@ -37,6 +48,11 @@ export default function page() {
         const { total, rolls } = makeARoll(modifier);
         console.log('total:', total, 'rolls:', rolls);
     }
+
+    const saveStats = () => {
+        updateStats(intelligenceStat, strengthStat, dexterityStat, charismaStat, wisdomStat, charter?.characterId ?? 0);
+    }
+
     return (
         <>
             <Stack.Screen options={{ title: 'charter' }} />
@@ -58,83 +74,23 @@ export default function page() {
                 </View>
 
                 <View className="p-4 flex justify-center items-end">
-                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4">
+                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4" onPress={saveStats}>
                         <Text className="text-2xl font-semibold text-white">Gem</Text>
                     </Pressable>
                 </View>
 
                 <View className="flex flex-row flex-wrap justify-between p-4 gap-1">
-                    <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Pressable>
-                            <Text className={statsTextStyle}>-</Text>
-                        </Pressable>
-                        <Pressable onPress={() => roll(charter?.intelligence ?? 0)}>
-                            <Text className={statsTextStyle}>Intelligence: {charter?.intelligence}</Text>
-                        </Pressable>
-                        <Pressable>
-                            <Text className={statsTextStyle}>+</Text>
-                        </Pressable>
-                    </View>
+                    <CharterStat stat="intelligence" value={intelligenceStat} width="w-[48%]" setStat={setIntelligenceStat} roll={roll} />
 
-                    <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Pressable>
-                            <Text className={statsTextStyle}>-</Text>
-                        </Pressable>
+                    <CharterStat stat="strength" value={strengthStat} width="w-[48%]" setStat={setStrengthStat} roll={roll} />
 
-                        <Pressable onPress={() => roll(charter?.strength ?? 0)}>
-                            <Text className={statsTextStyle}>Strength: {charter?.strength}</Text>
-                        </Pressable>
+                    <CharterStat stat="dexterity" value={dexterityStat} width="w-[48%]" setStat={setDexterityStat} roll={roll} />
 
-                        <Pressable>
-                            <Text className={statsTextStyle}>+</Text>
-                        </Pressable>
-                    </View>
+                    <CharterStat stat="charisma" value={charismaStat} width="w-[48%]" setStat={setCharismaStat} roll={roll} />
 
-                    <View className={`${statsWrapperStyle} w-[48%]`}>
-                        <Pressable>
-                            <Text className={statsTextStyle}>-</Text>
-                        </Pressable>
-                        <Pressable onPress={() => roll(charter?.dexterity ?? 0)}>
-                            <Text className={statsTextStyle}>Dexterity: {charter?.dexterity}</Text>
-                        </Pressable>
-                        <Pressable>
-                            <Text className={statsTextStyle}>+</Text>
-                        </Pressable>
-                    </View>
-
-                    <View className={`${statsWrapperStyle} w-[48%]`}>
-
-                        <Pressable>
-                            <Text className={statsTextStyle}>-</Text>
-                        </Pressable>
-
-                        <Pressable onPress={() => roll(charter?.charisma ?? 0)}>
-                            <Text className={statsTextStyle}>Charisma: {charter?.charisma}</Text>
-                        </Pressable>
-
-                        <Pressable>
-                            <Text className={statsTextStyle}>+</Text>
-                        </Pressable>
-                    </View>
-
-                    <View className={`${statsWrapperStyle} w-full`}>
-                        <Pressable>
-                            <Text className={statsTextStyle}>-</Text>
-                        </Pressable>
-                        <Pressable onPress={() => roll(charter?.wisdom ?? 0)}>
-                            <Text className={statsTextStyle}>Wisdom: {charter?.wisdom}</Text>
-                        </Pressable>
-
-                        <Pressable>
-                            <Text className={statsTextStyle}>+</Text>
-                        </Pressable>
-                    </View>
+                    <CharterStat stat="wisdom" value={wisdomStat} width="w-full" setStat={setWisdomStat} roll={roll} />
                 </View>
             </View >
         </>
     );
 }
-
-
-const statsTextStyle = "text-2xl font-semibold";
-const statsWrapperStyle = "border-2 border-black p-2 rounded-md flex-row justify-between items-center flex-wrap";

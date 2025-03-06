@@ -21,3 +21,36 @@ export async function getCharacterById(id: string) {
         return { success: false, error: error.message };
     }
 }
+
+export async function updateStats(
+    intelligence: number | undefined,
+    strength: number | undefined,
+    dexterity: number | undefined,
+    charisma: number | undefined,
+    wisdom: number | undefined,
+    id: number
+){
+
+    const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+    try {
+        const response = await fetch(`${API_URL}/api/Character/${id}/stats`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            intelligence: intelligence,
+            strength: strength,
+            dexterity: dexterity,
+            charisma: charisma,
+            wisdom: wisdom
+        }),
+    });
+    const data = await response.json();
+    console.log(data);
+    } catch (error: any) {
+        console.error('Error:', error);
+     /*    return { success: false, error: error.message }; */
+    }
+}

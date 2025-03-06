@@ -181,7 +181,7 @@ namespace api.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "Stats updated successfully" });
         }
 
 
