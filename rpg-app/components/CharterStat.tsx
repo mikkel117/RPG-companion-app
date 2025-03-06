@@ -16,8 +16,7 @@ const CharterStat = (props: CharterStatProps) => {
     }
 
     const subtractFromStat = () => {
-        if (props.value > 0)
-            props.setStat(props.value - 1)
+        props.setStat(props.value - 1)
     }
 
     return (

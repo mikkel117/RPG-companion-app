@@ -4,11 +4,18 @@ import { Text, View, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import CharterStat from "~/components/CharterStat";
+import ShowRollModal from "~/components/models/ShowRollModal";
 
 import { getCharacterById, updateStats } from '~/functions/api/apiCharacter';
 import { makeARoll } from '~/functions/roll';
 
 import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
+
+type rollType = {
+    total: number;
+    modifier: number;
+    rolls: number[];
+}
 
 export default function page() {
     const { id } = useLocalSearchParams();
@@ -19,6 +26,8 @@ export default function page() {
     const [dexterityStat, setDexterityStat] = useState<number>(0);
     const [charismaStat, setCharismaStat] = useState<number>(0);
     const [wisdomStat, setWisdomStat] = useState<number>(0);
+    const [showRollModal, setShowRollModal] = useState<boolean>(true);
+    const [diceroll, setDiceRoll] = useState<rollType>({ total: 0, modifier: 0, rolls: [] });
 
     useEffect(() => {
         const fetchCharter = async () => {
@@ -46,6 +55,8 @@ export default function page() {
 
     const roll = (modifier: number) => {
         const { total, rolls } = makeARoll(modifier);
+        setDiceRoll({ total, modifier, rolls });
+        setShowRollModal(true);
         console.log('total:', total, 'rolls:', rolls);
     }
 
@@ -91,6 +102,7 @@ export default function page() {
                     <CharterStat stat="wisdom" value={wisdomStat} width="w-full" setStat={setWisdomStat} roll={roll} />
                 </View>
             </View >
+            <ShowRollModal visible={showRollModal} onClose={() => setShowRollModal(false)} roll={diceroll} />
         </>
     );
 }
