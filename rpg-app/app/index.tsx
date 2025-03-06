@@ -15,7 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const getToken = async () => {
-      const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+      const token = Platform.OS === 'android' || Platform.OS === 'ios' ? await getTokenUsingStorage() : getTokenUsingCookie();
       if (token != "") {
         setLoggedIn(true);
       }

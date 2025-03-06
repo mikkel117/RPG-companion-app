@@ -34,7 +34,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
         if (!loginData.success) {
             setError(loginData.error ? loginData.error : 'An error occurred, please try again');
         } else {
-            Platform.OS === 'android' ? setTokenUsingStorage(loginData.token) : setCookie(loginData.token);
+            Platform.OS === 'android' || Platform.OS === 'ios' ? setTokenUsingStorage(loginData.token) : setCookie(loginData.token);
             setLoggedIn(true);
             closeModal();
         }
