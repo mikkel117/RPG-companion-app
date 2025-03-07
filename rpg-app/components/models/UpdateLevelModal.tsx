@@ -51,16 +51,16 @@ const UpdateLevelModal: React.FC<UpdateLevelModelProps> = ({ visible, onClose, l
                         </Pressable>
                     </View>
                     <View className="flex-1 flex-row justify-around items-center">
-                        <Pressable onPress={() => setLevelValue(levelValue - 1)} className='text-3xl'>
-                            -
+                        <Pressable onPress={() => setLevelValue(levelValue - 1)}>
+                            <Text className='text-3xl'>-</Text>
                         </Pressable>
                         <Text className='text-3xl'>{levelValue}</Text>
-                        <Pressable onPress={() => setLevelValue(levelValue + 1)} className='text-3xl'>
-                            +
+                        <Pressable onPress={() => setLevelValue(levelValue + 1)}>
+                            <Text className='text-3xl'>+</Text>
                         </Pressable>
                     </View>
                     <Pressable onPress={handleUpdate} className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4">
-                        <Text className="text-2xl font-semibold text-white">Update</Text>
+                        <Text className="text-2xl font-semibold text-center text-white">Update</Text>
                     </Pressable>
                 </View>
             </View >

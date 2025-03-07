@@ -20,8 +20,6 @@ const ShowRollModal: React.FC<ShowRollModelProps> = ({ roll }) => {
     const timer = setTimeout(() => {
       setShowModal(false);
     }, 2000);
-    console.log('timer:', timer);
-
     return () => clearTimeout(timer);
   }, [roll])
 
