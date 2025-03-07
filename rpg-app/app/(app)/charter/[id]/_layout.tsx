@@ -1,7 +1,23 @@
 import { View, Text, Pressable } from "react-native";
-import { Stack, Slot, Link } from "expo-router";
+import { Stack, Slot, Link, useLocalSearchParams, useSegments } from "expo-router";
 
 export default function Layout() {
+    const { id } = useLocalSearchParams();
+    const segments = useSegments();
+
+
+    const isActive = (href: string) => {
+        let cleanSegments = segments.filter(seg => seg !== "(app)").join("/");
+        const clearHref = href.replace(/^\/|\/$/g, "");
+
+        if (id) {
+            cleanSegments = cleanSegments.replace("[id]", id.toString());
+        }
+
+        return cleanSegments === clearHref;
+    }
+
+
     return (
         <>
             <View style={{ flex: 1 }}>
@@ -16,7 +32,9 @@ export default function Layout() {
                     <Slot />
                 </Stack>
                 <View style={{ padding: 20, backgroundColor: "lightgray", alignItems: "center" }}>
-                    <Text style={{ fontSize: 16 }}>Footer</Text>
+                    <Link href={`/charter/${id}/quests`} className="mb-2">
+                        <Text className={`text-2xl font-semibold mb-2 ${isActive(`charter/${id}/quests`) ? "text-blue-500" : "text-black"}`}>quests</Text>
+                    </Link>
                 </View>
             </View >
         </>
