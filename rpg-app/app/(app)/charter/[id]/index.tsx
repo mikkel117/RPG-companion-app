@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 
 import CharterStat from "~/components/CharterStat";
 import ShowRollModal from "~/components/models/ShowRollModal";
+import UpdateHealthModal from "~/components/models/UpdateHealthModal";
+import UpdateLevelModal from "~/components/models/UpdateLevelModal";
 
 import { getCharacterById, updateStats } from '~/functions/api/apiCharacter';
 import { makeARoll } from '~/functions/roll';
@@ -20,14 +22,16 @@ type rollType = {
 export default function page() {
     const { id } = useLocalSearchParams();
     const [charter, setCharter] = useState<characterWithRelationsType>();
-    const [error, setError] = useState<string | null>(null);
     const [intelligenceStat, setIntelligenceStat] = useState<number>(0);
     const [strengthStat, setStrengthStat] = useState<number>(0);
     const [dexterityStat, setDexterityStat] = useState<number>(0);
     const [charismaStat, setCharismaStat] = useState<number>(0);
     const [wisdomStat, setWisdomStat] = useState<number>(0);
-    const [showRollModal, setShowRollModal] = useState<boolean>(true);
+    const [health, setHealth] = useState<number>(0);
+    const [level, setLevel] = useState<number>(0);
     const [diceroll, setDiceRoll] = useState<rollType>({ total: 0, modifier: 0, rolls: [] });
+    const [showHealthModal, setShowHealthModal] = useState<boolean>(false);
+    const [showLevelModal, setShowLevelModal] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchCharter = async () => {
@@ -43,21 +47,20 @@ export default function page() {
             setDexterityStat(response.data.dexterity);
             setCharismaStat(response.data.charisma);
             setWisdomStat(response.data.wisdom);
+            setHealth(response.data.health);
+            setLevel(response.data.level);
         }
         if (id) {
             fetchCharter();
         } else {
             console.error('No id found in params');
         };
-
         fetchCharter();
     }, []);
 
     const roll = (modifier: number) => {
         const { total, rolls } = makeARoll(modifier);
         setDiceRoll({ total, modifier, rolls });
-        setShowRollModal(true);
-        console.log('total:', total, 'rolls:', rolls);
     }
 
     const saveStats = () => {
@@ -70,12 +73,17 @@ export default function page() {
             <View className="flex-1 bg-gray-100">
                 <Text className="text-5xl text-rose-800 text-center m-4">{charter?.name}</Text>
                 <View className="p-4 bg-white rounded-lg shadow-lg">
-                    <Text>
-                        level: {charter?.level}
-                    </Text>
-                    <Text>
-                        health: {charter?.health}
-                    </Text>
+                    <Pressable onPress={() => setShowLevelModal(true)}>
+                        <Text>
+                            level: {level}
+                        </Text>
+                    </Pressable>
+
+                    <Pressable onPress={() => setShowHealthModal(true)}>
+                        <Text>
+                            health: {health}
+                        </Text>
+                    </Pressable>
                     <Text>
                         race: {CharacterClassEnum[charter?.characterRace ?? 0]}
                     </Text>
@@ -102,7 +110,9 @@ export default function page() {
                     <CharterStat stat="wisdom" value={wisdomStat} width="w-full" setStat={setWisdomStat} roll={roll} />
                 </View>
             </View >
-            <ShowRollModal visible={showRollModal} onClose={() => setShowRollModal(false)} roll={diceroll} />
+            <ShowRollModal roll={diceroll} />
+            <UpdateHealthModal visible={showHealthModal} onClose={() => setShowHealthModal(false)} health={health} setHealth={setHealth} />
+            <UpdateLevelModal visible={showLevelModal} onClose={() => setShowLevelModal(false)} level={level} setLevel={setLevel} />
         </>
     );
 }

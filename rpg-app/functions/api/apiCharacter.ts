@@ -54,3 +54,48 @@ export async function updateStats(
      /*    return { success: false, error: error.message }; */
     }
 }
+
+
+export async function updateHealth(health: number, id: string) {
+    const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+    try {
+        const response = await fetch(`${API_URL}/api/Character/${id}/health`, {
+            method : 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                health: health
+            })
+        });
+        if(!response.ok){
+            return { success: false };
+        }
+        return { success: true };
+        } catch (error: any) {
+            return { success: false };
+        }
+}
+
+export async function updateLevel(level: number, id: string) {
+    const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+    try {
+        const response = await fetch(`${API_URL}/api/Character/${id}/level`, {
+            method : 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                level: level
+            })
+        });
+        if(!response.ok){
+            return { success: false };
+        }
+        return { success: true };
+        } catch (error: any) {
+            return { success: false };
+        }
+}

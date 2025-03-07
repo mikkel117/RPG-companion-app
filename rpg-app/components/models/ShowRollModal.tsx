@@ -1,5 +1,5 @@
 import { View, Text, Modal } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 type rollType = {
   total: number;
@@ -9,27 +9,39 @@ type rollType = {
 
 interface ShowRollModelProps {
   roll: rollType;
-  visible: boolean;
-  onClose: () => void;
 }
 
 
-const ShowRollModal: React.FC<ShowRollModelProps> = ({ visible, onClose, roll }) => {
-  return (
-    <Modal
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-      pointerEvents='none'
-    >
-      <View className="flex-1 justify-end items-start" pointerEvents='none'>
-        <View className="w-96 h-24 bg-slate-600 flex justify-center items-center p-4" pointerEvents='auto'>
-          <Text className="text-5xl text-white text-center">{roll.rolls[0]}+{roll.modifier}</Text>
-          <Text>1d20+{roll.modifier}</Text>
-        </View>
-      </View>
+const ShowRollModal: React.FC<ShowRollModelProps> = ({ roll }) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-    </Modal>
+  useEffect(() => {
+    setShowModal(true);
+    const timer = setTimeout(() => {
+      setShowModal(false);
+    }, 2000);
+    console.log('timer:', timer);
+
+    return () => clearTimeout(timer);
+  }, [roll])
+
+  if (!showModal) return null;
+
+  return (
+    <View className="w-52 h-24 absolute bottom-0 left-0 bg-slate-600">
+      <View className=' flex flex-row items-center p-4 w-full h-full'>
+
+        <View className="flex-1">
+          <Text className="text-5xl text-white">{roll.rolls[0]}+{roll.modifier}</Text>
+          <Text className='text-white'>1d20+{roll.modifier}</Text>
+        </View>
+
+        <View className=''>
+          <Text className='text-white text-2xl'>= {roll.total}</Text>
+        </View>
+
+      </View>
+    </View>
   )
 }
 
