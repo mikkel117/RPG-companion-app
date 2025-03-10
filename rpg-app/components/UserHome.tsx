@@ -91,9 +91,15 @@ const UserHome = () => {
             </ScrollView>
 
             <View className="border-b-4 border-black my-4"></View>
-            <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-2 ml-1.5">
-                <Text className="text-white font-semibold text-center">Create Character</Text>
-            </Pressable>
+            <View>
+
+            </View>
+
+            <Link href="/createCharter">
+                <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full">
+                    <Text className="text-white text-lg font-semibold text-center">Create Character</Text>
+                </Pressable>
+            </Link>
 
 
         </View>

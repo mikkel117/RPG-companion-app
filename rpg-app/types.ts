@@ -12,6 +12,10 @@ export enum CharacterRaceEnum
     Elf,
 }
 
+export const RaceArray: string[] = Object.keys(CharacterRaceEnum).filter(key => isNaN(Number(key)));
+
+export const ClassArray: string[] = Object.keys(CharacterClassEnum).filter(key => isNaN(Number(key)));
+
 
 const raceNames: Record<number, string> = {
     [CharacterRaceEnum.Human]: "Human",
