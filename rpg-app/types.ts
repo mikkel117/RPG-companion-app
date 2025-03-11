@@ -16,18 +16,6 @@ export const RaceArray: string[] = Object.keys(CharacterRaceEnum).filter(key => 
 
 export const ClassArray: string[] = Object.keys(CharacterClassEnum).filter(key => isNaN(Number(key)));
 
-
-const raceNames: Record<number, string> = {
-    [CharacterRaceEnum.Human]: "Human",
-    [CharacterRaceEnum.Elf]: "Elf",
-};
-
-const classNames: Record<number, string> = {
-    [CharacterClassEnum.Barbarian]: "Barbarian",
-    [CharacterClassEnum.Fighter]: "Fighter",
-    [CharacterClassEnum.Sorcerer]: "Sorcerer",
-};
-
 export enum RarityEnum
     {
         Common,
@@ -108,4 +96,19 @@ export type characterWithRelationsType = characterType & {
     items: ItemType[];
     quests: quests[];
     notes: noteType[];
+}
+
+
+export type createCharterType = {
+    name: string;
+    characterClass: CharacterClassEnum;
+    characterRace: CharacterRaceEnum;
+    level: number;
+    health: number;
+    intelligence: number;
+    strength: number;
+    dexterity: number;
+    wisdom: number;
+    charisma: number;
+    userId: number;
 }

@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import { createCharterType } from "~/types";
 import { getTokenUsingCookie, getTokenUsingStorage } from './tokenHandling';
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5028' : 'http://localhost:5028';
 
@@ -98,4 +99,24 @@ export async function updateLevel(level: number, id: string) {
         } catch (error: any) {
             return { success: false };
         }
+}
+
+export async function createCharterApi(character: createCharterType) {
+    const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+    try {
+        const response = await fetch(`${API_URL}/api/Character`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(character)
+        });
+
+        const data = await response.json();
+        console.log(data);
+    } catch (error: any) {
+        console.log('Error:', error);
+        
+    }
 }

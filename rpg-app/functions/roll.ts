@@ -1,7 +1,7 @@
-export function rollStat(method: "3d6" | "4d6-drop-lowest" = "3d6"): number {
+export function rollStat(method: "3d6" | "drop-lowest" = "3d6"): number {
     let rolls = Array.from({ length: method === "3d6" ? 3 : 4 }, () => Math.floor(Math.random() * 6) + 1);
 
-    if (method === "4d6-drop-lowest") {
+    if (method === "drop-lowest") {
         rolls.sort((a, b) => a - b);
         rolls.shift();
     }
