@@ -87,7 +87,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
 
                         <TextInput
                             className="m-2 h-14 text-xl rounded border p-4 text-black border-black"
-                            placeholder="User"
+                            placeholder="Bruger navn"
                             placeholderTextColor="gray"
                             value={user}
                             onChangeText={setUser}
@@ -120,7 +120,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
                             {fetching ? (
                                 <ActivityIndicator color="white" />
                             ) : (
-                                <Text className="text-white text-lg font-semibold text-center"> {isSignUp ? "SIgn up" : "Login"} </Text>
+                                <Text className="text-white text-lg font-semibold text-center"> {isSignUp ? "Sign up" : "Login"} </Text>
                             )}
                         </Pressable>
                     </View>

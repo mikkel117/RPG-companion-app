@@ -75,20 +75,20 @@ export default function page() {
                 <View className="p-4 bg-white rounded-lg shadow-lg">
                     <Pressable onPress={() => setShowLevelModal(true)}>
                         <Text>
-                            level: {level}
+                            Level: {level}
                         </Text>
                     </Pressable>
 
                     <Pressable onPress={() => setShowHealthModal(true)}>
                         <Text>
-                            health: {health}
+                            Liv: {health}
                         </Text>
                     </Pressable>
                     <Text>
-                        race: {CharacterClassEnum[charter?.characterRace ?? 0]}
+                        Rase: {CharacterClassEnum[charter?.characterRace ?? 0]}
                     </Text>
                     <Text>
-                        class: {CharacterRaceEnum[charter?.characterClass ?? 0]}
+                        Klasse: {CharacterRaceEnum[charter?.characterClass ?? 0]}
                     </Text>
                 </View>
 

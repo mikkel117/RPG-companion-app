@@ -91,7 +91,7 @@ export default function createCharter() {
                 </View>
 
 
-                <Text className='text-xl'>Klass</Text>
+                <Text className='text-xl'>Klasse</Text>
                 <View className='m-2 border'>
                     <Picker
                         ref={pickerRef}

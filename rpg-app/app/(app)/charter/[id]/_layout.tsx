@@ -24,9 +24,8 @@ export default function Layout() {
 
                 <View style={{ padding: 20, backgroundColor: "lightgray", alignItems: "center", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                     <Link href={`/`} className="mb-2">
-                        <Text className="text-2xl font-semibold mb-2">go home</Text>
+                        <Text className="text-2xl font-semibold mb-2">gå hjem</Text>
                     </Link>
-                    <Text style={{ fontSize: 18, fontWeight: "bold" }}>Header</Text>
                 </View>
                 <Stack screenOptions={{ headerShown: false }}>
                     <Slot />

@@ -54,10 +54,8 @@ export default function Home() {
 
             <View className="flex bg-gray-100 items-end">
 
-              <Link href="/Camera">
-                <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full">
-                  <Text className="text-white text-lg font-semibold text-center">Kamera</Text>
-                </Pressable>
+              <Link href="/Camera" className='m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full text-center'>
+                <Text className="text-white text-lg font-semibold">Kamera</Text>
               </Link>
             </View>
           </>

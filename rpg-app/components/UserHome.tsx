@@ -36,11 +36,11 @@ const UserHome = () => {
     return (
         <View className="flex-1">
             <View className="flex-row items-center justify-between bg-gray-100 w-full">
-                <Text className="text-xl font-bold">Welcome, {user?.username}</Text>
+                <Text className="text-xl font-bold">{user?.username}</Text>
                 <Pressable
                     className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-2 ml-1.5"
                     onPressIn={logout}>
-                    <Text className="text-white font-semibold text-center">Logout</Text>
+                    <Text className="text-white font-semibold text-center">Log ud</Text>
                 </Pressable>
             </View>
 
@@ -61,12 +61,12 @@ const UserHome = () => {
 
                                 <View className="flex-row flex-wrap justify-evenly items-center">
                                     <View className="w-1/2 mb-2">
-                                        <Text className="text-black font-bold text-lg">Class:</Text>
+                                        <Text className="text-black font-bold text-lg">Klasse:</Text>
                                         <Text className="font-semibold">{CharacterClassEnum[character.characterClass]}</Text>
                                     </View>
 
                                     <View className="w-1/2 mb-2">
-                                        <Text className="text-black font-bold text-lg">Race:</Text>
+                                        <Text className="text-black font-bold text-lg">Rase:</Text>
                                         <Text className="font-semibold">{CharacterRaceEnum[character.characterRace]}</Text>
                                     </View>
 
@@ -76,7 +76,7 @@ const UserHome = () => {
                                     </View>
 
                                     <View className="w-1/2">
-                                        <Text className="text-black font-bold text-lg">Health:</Text>
+                                        <Text className="text-black font-bold text-lg">Liv:</Text>
                                         <Text className="font-semibold">{character.health}</Text>
                                     </View>
 
@@ -84,7 +84,7 @@ const UserHome = () => {
                             </View>
                         </View>
                     ))) : (
-                    <Text className="text-center text-2xl font-semibold">No characters found</Text>
+                    <Text className="text-center text-2xl font-semibold">Der bliv ikke fundet nogle karkter</Text>
                 )
 
                 }
@@ -96,16 +96,8 @@ const UserHome = () => {
             </View>
 
             <View className="flex-row items-center justify-between bg-gray-100 w-full">
-                <Link href="/createCharter">
-                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full">
-                        <Text className="text-white text-lg font-semibold text-center">Create Character</Text>
-                    </Pressable>
-                </Link>
-
-                <Link href="/Camera">
-                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full">
-                        <Text className="text-white text-lg font-semibold text-center">Kamera</Text>
-                    </Pressable>
+                <Link href="/Camera" className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full text-center">
+                    <Text className="text-white text-lg font-semibold">Kamera</Text>
                 </Link>
             </View>
 

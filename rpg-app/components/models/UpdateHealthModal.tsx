@@ -45,7 +45,7 @@ const UpdateHealthModal: React.FC<UpdateHealthModelProps> = ({ visible, onClose,
             bg-black/50">
                 <View className="bg-white w-80 h-80 rounded-lg p-4">
                     <View className="flex-row items-center justify-between w-full px-4">
-                        <Text className="text-3xl text-black">Update Health</Text>
+                        <Text className="text-3xl text-black">Opdater liv</Text>
                         <Pressable onPress={onClose} className="-mr-2">
                             <Text className="text-2xl text-gray-500">X</Text>
                         </Pressable>
@@ -60,7 +60,7 @@ const UpdateHealthModal: React.FC<UpdateHealthModelProps> = ({ visible, onClose,
                         </Pressable>
                     </View>
                     <Pressable onPress={handleUpdate} className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4">
-                        <Text className="text-2xl font-semibold text-center text-white">Update</Text>
+                        <Text className="text-2xl font-semibold text-center text-white">Opdater</Text>
                     </Pressable>
                 </View>
             </View >

@@ -16,8 +16,8 @@ export default function Camera() {
         return (
             <Container>
                 <View>
-                    <Text>Camera permissions required</Text>
-                    <Button title="Request permission" onPress={requestPermission} />
+                    <Text>Kameratilladelser påkrævet</Text>
+                    <Button title="Anmod om tilladelse" onPress={requestPermission} />
                 </View>
             </Container>
         )
@@ -30,11 +30,11 @@ export default function Camera() {
 
     return (
         <Container>
-            <View className='flex flex-1'>
-                <CameraView facing={facing} className='w-full h-96'>
+            <View className='flex flex-1 h-56'>
+                <CameraView facing={facing} className='w-full h-full'>
                     <View>
                         <TouchableOpacity onPress={toggleCameraFacing}>
-                            <Text>Toggle camera facing</Text>
+                            <Text>vænd kamera</Text>
                         </TouchableOpacity>
                     </View>
                 </CameraView>
