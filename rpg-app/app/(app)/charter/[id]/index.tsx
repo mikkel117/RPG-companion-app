@@ -70,31 +70,31 @@ export default function page() {
     return (
         <>
             <Stack.Screen options={{ title: 'charter' }} />
-            <View className="flex-1 bg-gray-100">
-                <Text className="text-5xl text-rose-800 text-center m-4">{charter?.name}</Text>
-                <View className="p-4 bg-white rounded-lg shadow-lg">
+            <View className="flex-1 bg-background">
+                <Text className="text-5xl text-text text-center m-4">{charter?.name}</Text>
+                <View className="p-4 bg-secondary rounded-lg shadow-lg">
                     <Pressable onPress={() => setShowLevelModal(true)}>
-                        <Text>
+                        <Text className="text-text">
                             Level: {level}
                         </Text>
                     </Pressable>
 
                     <Pressable onPress={() => setShowHealthModal(true)}>
-                        <Text>
+                        <Text className="text-text">
                             Liv: {health}
                         </Text>
                     </Pressable>
-                    <Text>
+                    <Text className="text-text">
                         Rase: {CharacterClassEnum[charter?.characterRace ?? 0]}
                     </Text>
-                    <Text>
+                    <Text className="text-text">
                         Klasse: {CharacterRaceEnum[charter?.characterClass ?? 0]}
                     </Text>
                 </View>
 
                 <View className="p-4 flex justify-center items-end">
-                    <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4" onPress={saveStats}>
-                        <Text className="text-2xl font-semibold text-white">Gem</Text>
+                    <Pressable className="m-2 bg-button rounded-[28px] shadow-md p-4" onPress={saveStats}>
+                        <Text className="text-2xl font-semibold text-text">Gem</Text>
                     </Pressable>
                 </View>
 

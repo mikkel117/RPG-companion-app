@@ -26,7 +26,7 @@ const ShowRollModal: React.FC<ShowRollModelProps> = ({ roll }) => {
   if (!showModal) return null;
 
   return (
-    <View className="w-52 h-24 absolute bottom-0 left-0 bg-slate-600">
+    <View className="w-52 h-24 absolute bottom-0 left-0 bg-secondary">
       <View className=' flex flex-row items-center p-4 w-full h-full'>
 
         <View className="flex-1">

@@ -20,17 +20,17 @@ const CharterStat = (props: CharterStatProps) => {
     }
 
     return (
-        <View className={`border-2 border-black p-2 rounded-md flex-row justify-between items-center flex-wrap ${props.width}`}>
+        <View className={`bg-primary  p-2 rounded-md flex-row justify-between items-center flex-wrap ${props.width}`}>
             <Pressable onPress={subtractFromStat}>
-                <Text className="text-xl font-semibold">-</Text>
+                <Text className="text-xl font-semibold text-text">-</Text>
             </Pressable>
 
             <Pressable onPress={() => props.roll(props.value)}>
-                <Text className="text-xl font-semibold">{props.stat}: {props.value}</Text>
+                <Text className="text-xl font-semibold text-text">{props.stat}: {props.value}</Text>
             </Pressable>
 
             <Pressable onPress={addToStat}>
-                <Text className="text-xl font-semibold">+</Text>
+                <Text className="text-xl font-semibold text-text">+</Text>
             </Pressable>
         </View>
     )

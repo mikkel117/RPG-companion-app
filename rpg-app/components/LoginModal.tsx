@@ -76,26 +76,26 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
             items-center
             bg-black/50
             '>
-                <View className='w-11/12 h-[500px] bg-white rounded-2xl p-6 shadow-lg'>
+                <View className='w-11/12 h-[500px] bg-primary rounded-2xl p-6 shadow-lg'>
                     <View className='flex-row items-center justify-between w-full px-4'>
-                        <Text className="text-3xl text-black">{isSignUp ? "Sign up" : "Login"}</Text>
+                        <Text className="text-3xl text-text">{isSignUp ? "Sign up" : "Login"}</Text>
                         <Pressable onPress={closeModal} className='-mr-2'>
-                            <Text className='text-2xl text-gray-500'>X</Text>
+                            <Text className='text-2xl text-text'>X</Text>
                         </Pressable>
                     </View>
                     <View className='flex-1 justify-center'>
 
                         <TextInput
-                            className="m-2 h-14 text-xl rounded border p-4 text-black border-black"
+                            className="m-2 h-14 text-xl rounded border p-4 text-text border-text"
                             placeholder="Bruger navn"
-                            placeholderTextColor="gray"
+                            placeholderTextColor="#F4F4F4"
                             value={user}
                             onChangeText={setUser}
                         />
                         <TextInput
-                            className="m-2 h-14 text-xl rounded border border-black p-4 text-black"
+                            className="m-2 h-14 text-xl rounded border border-text p-4 text-text"
                             placeholder="Password"
-                            placeholderTextColor="gray"
+                            placeholderTextColor="#F4F4F4"
                             value={password}
                             onChangeText={setPassword}
                             secureTextEntry={true}
@@ -105,7 +105,7 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
                     </View>
 
 
-                    <Text className="text-center text-gray-500 mt-2">
+                    <Text className="text-center text-text mt-2">
                         {isSignUp ? "har du en konto?" : "har ikke en konto?"}
                         <Pressable onPress={() => setIsSignUp(!isSignUp)} className="text-indigo-500">
                             <Text> {isSignUp ? "Login" : "Sign up"} </Text>
@@ -114,13 +114,13 @@ const LoginModal: React.FC<LoginModelProps> = ({ visible, onClose }) => {
 
                     <View className='pb-4'>
                         <Pressable
-                            className={`m-2 rounded-[28px] shadow-md p-4 ${fetching ? 'bg-gray-400' : 'bg-indigo-500'}`}
+                            className={`m-2 rounded-[28px] shadow-md p-4 ${fetching ? 'bg-muted' : 'bg-button'}`}
                             onPressIn={() => isSignUp ? handleSignUp() : handleLogin()}
                             disabled={fetching}>
                             {fetching ? (
                                 <ActivityIndicator color="white" />
                             ) : (
-                                <Text className="text-white text-lg font-semibold text-center"> {isSignUp ? "Sign up" : "Login"} </Text>
+                                <Text className="text-text text-lg font-semibold text-center"> {isSignUp ? "Sign up" : "Login"} </Text>
                             )}
                         </Pressable>
                     </View>

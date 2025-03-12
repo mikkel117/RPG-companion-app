@@ -43,16 +43,16 @@ export default function Home() {
         ) : (
           <>
             <View className='
-          flex-1 justify-center bg-gray-100
+          flex-1 justify-center
           '>
               <Pressable
-                className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
+                className="m-2 bg-button rounded-[28px] shadow-md p-4"
                 onPressIn={() => setShowLoginModal(true)}>
-                <Text className="text-white text-lg font-semibold text-center">Login</Text>
+                <Text className="text-text text-lg font-semibold text-center">Login</Text>
               </Pressable>
             </View>
 
-            <View className="flex bg-gray-100 items-end">
+            <View className="flex items-end">
 
               <Link href="/Camera" className='m-2 bg-button rounded-[28px] shadow-md p-4 w-full text-center'>
                 <Text className="text-text text-lg font-semibold">Kamera</Text>

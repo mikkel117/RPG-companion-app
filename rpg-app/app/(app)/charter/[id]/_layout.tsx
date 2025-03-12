@@ -20,19 +20,19 @@ export default function Layout() {
 
     return (
         <>
-            <View style={{ flex: 1 }}>
+            <View className="flex-1">
 
-                <View style={{ padding: 20, backgroundColor: "lightgray", alignItems: "center", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <View className="flex-row items-center justify-between p-4 bg-primary">
                     <Link href={`/`} className="mb-2">
-                        <Text className="text-2xl font-semibold mb-2">gå hjem</Text>
+                        <Text className="text-2xl font-semibold mb-2 text-text">gå hjem</Text>
                     </Link>
                 </View>
                 <Stack screenOptions={{ headerShown: false }}>
                     <Slot />
                 </Stack>
-                <View style={{ padding: 20, backgroundColor: "lightgray", alignItems: "center" }}>
+                <View className="flex-row items-center justify-center p-4 bg-primary">
                     <Link href={`/charter/${id}/quests`} className="mb-2">
-                        <Text className={`text-2xl font-semibold mb-2 ${isActive(`charter/${id}/quests`) ? "text-blue-500" : "text-black"}`}>quests</Text>
+                        <Text className={`text-2xl font-semibold mb-2 ${isActive(`charter/${id}/quests`) ? "text-red-500" : "text-button"}`}>quests</Text>
                     </Link>
                 </View>
             </View >

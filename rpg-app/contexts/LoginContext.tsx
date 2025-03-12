@@ -40,7 +40,7 @@ const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
 
     if (loading) {
         return (
-            <View className="flex-1 justify-center items-center bg-gray-100">
+            <View className="flex-1 justify-center items-center">
                 <Text className="text-5xl text-rose-800 text-center">Loading...</Text>
             </View>
         )

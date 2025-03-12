@@ -35,49 +35,49 @@ const UserHome = () => {
 
     return (
         <View className="flex-1">
-            <View className="flex-row items-center justify-between bg-gray-100 w-full">
-                <Text className="text-xl font-bold">{user?.username}</Text>
+            <View className="flex-row items-center justify-between w-full">
+                <Text className="text-xl font-bold text-text ml-5">{user?.username}</Text>
                 <Pressable
-                    className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-2 ml-1.5"
+                    className="m-2 bg-button rounded-[28px] shadow-md p-2 ml-1.5"
                     onPressIn={logout}>
-                    <Text className="text-white font-semibold text-center">Log ud</Text>
+                    <Text className="text-text font-semibold text-center">Log ud</Text>
                 </Pressable>
             </View>
 
-            <View className="border-b-4 border-black my-4"></View>
+            <View className="border-b-4 border-secondary my-4"></View>
 
             <ScrollView className="flex-1">
                 {user?.characters?.length ? (
                     user.characters.map((character) => (
-                        <View key={character.characterId} className="mb-4 bg-white rounded-lg shadow-md p-4">
+                        <View key={character.characterId} className="mb-4 bg-secondary rounded-lg shadow-md p-4">
 
                             <View className="flex-row">
                                 <Link href={`/charter/${character.characterId}`} className="mb-2">
-                                    <Text className="text-2xl font-semibold mb-2">{character.name}</Text>
+                                    <Text className="text-2xl font-semibold mb-2 text-text">{character.name}</Text>
                                 </Link>
                             </View>
 
-                            <View className="justify-evenly items-center bg-gray-200 rounded-md p-3">
+                            <View className="justify-evenly items-center bg-gray-500 rounded-md p-3">
 
                                 <View className="flex-row flex-wrap justify-evenly items-center">
                                     <View className="w-1/2 mb-2">
-                                        <Text className="text-black font-bold text-lg">Klasse:</Text>
-                                        <Text className="font-semibold">{CharacterClassEnum[character.characterClass]}</Text>
+                                        <Text className="text-text font-bold text-lg">Klasse:</Text>
+                                        <Text className="font-semibold text-text">{CharacterClassEnum[character.characterClass]}</Text>
                                     </View>
 
                                     <View className="w-1/2 mb-2">
-                                        <Text className="text-black font-bold text-lg">Rase:</Text>
-                                        <Text className="font-semibold">{CharacterRaceEnum[character.characterRace]}</Text>
+                                        <Text className="text-text font-bold text-lg">Rase:</Text>
+                                        <Text className="font-semibold text-text">{CharacterRaceEnum[character.characterRace]}</Text>
                                     </View>
 
                                     <View className="w-1/2">
-                                        <Text className="text-black font-bold text-lg">Level:</Text>
-                                        <Text className="font-semibold">{character.level}</Text>
+                                        <Text className="text-text font-bold text-lg">Level:</Text>
+                                        <Text className="font-semibold text-text">{character.level}</Text>
                                     </View>
 
                                     <View className="w-1/2">
-                                        <Text className="text-black font-bold text-lg">Liv:</Text>
-                                        <Text className="font-semibold">{character.health}</Text>
+                                        <Text className="text-text font-bold text-lg">Liv:</Text>
+                                        <Text className="font-semibold text-text">{character.health}</Text>
                                     </View>
 
                                 </View>
@@ -90,14 +90,14 @@ const UserHome = () => {
                 }
             </ScrollView>
 
-            <View className="border-b-4 border-black my-4"></View>
+            <View className="border-b-4 border-secondary my-4"></View>
             <View>
 
             </View>
 
-            <View className="flex-row items-center justify-between bg-gray-100 w-full">
-                <Link href="/Camera" className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full text-center">
-                    <Text className="text-white text-lg font-semibold">Kamera</Text>
+            <View className="flex-row items-center justify-between w-full">
+                <Link href="/Camera" className="m-2 bg-button rounded-[28px] shadow-md p-4 w-full text-center">
+                    <Text className="text-text text-lg font-semibold">Kamera</Text>
                 </Link>
             </View>
 
