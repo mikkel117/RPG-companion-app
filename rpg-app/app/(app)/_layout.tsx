@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getTokenUsingStorage, getTokenUsingCookie } from "~/functions/api/tokenHandling";
 
 export default function page() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
         const getToken = async () => {
@@ -32,9 +32,11 @@ export default function page() {
     }
 
     return (
-        <Stack screenOptions={{ headerShown: false }}>
-            <Slot />
-        </Stack>
+        <>
+            <Stack screenOptions={{ headerShown: false }}>
+                <Slot />
+            </Stack>
+        </>
     )
 
 }
