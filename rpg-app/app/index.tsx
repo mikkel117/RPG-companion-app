@@ -41,17 +41,28 @@ export default function Home() {
         {loggedIn ? (
           <UserHome />
         ) : (
-
-          <View className='
+          <>
+            <View className='
           flex-1 justify-center bg-gray-100
           '>
-            <Pressable
-              className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
-              onPressIn={() => setShowLoginModal(true)}>
-              <Text className="text-white text-lg font-semibold text-center">Login</Text>
-            </Pressable>
-          </View>
+              <Pressable
+                className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4"
+                onPressIn={() => setShowLoginModal(true)}>
+                <Text className="text-white text-lg font-semibold text-center">Login</Text>
+              </Pressable>
+            </View>
+
+            <View className="flex bg-gray-100 items-end">
+
+              <Link href="/Camera">
+                <Pressable className="m-2 bg-indigo-500 rounded-[28px] shadow-md p-4 w-full">
+                  <Text className="text-white text-lg font-semibold text-center">Kamera</Text>
+                </Pressable>
+              </Link>
+            </View>
+          </>
         )}
+
 
         <LoginModal visible={showLoginModal} onClose={() => setShowLoginModal(false)} />
       </Container>

@@ -1,33 +1,10 @@
-import { Text, Platform, View } from "react-native";
 import { Redirect, Stack, Slot } from "expo-router";
-import { useEffect, useState } from "react";
-import { getTokenUsingStorage, getTokenUsingCookie } from "~/functions/api/tokenHandling";
+import { useLogin } from "~/contexts/LoginContext";
 
 export default function page() {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
-    useEffect(() => {
-        const getToken = async () => {
-            const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
-            if (token != "") {
-                setIsAuthenticated(true);
-            } else {
-                setIsAuthenticated(false);
-            }
-            setLoading(false);
-        }
-        getToken();
-    }, []);
+    const { loggedIn } = useLogin();
 
-    if (loading) {
-        return (
-            <View className="flex-1 justify-center items-center bg-gray-100">
-                <Text className="text-5xl text-rose-800 text-center">Loading...</Text>
-            </View>
-        )
-    }
-
-    if (isAuthenticated === false) {
+    if (!loggedIn) {
         return <Redirect href="/" />
     }
 

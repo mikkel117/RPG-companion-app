@@ -1,4 +1,7 @@
-import React, { createContext, useState } from 'react';
+import { Platform, View, Text } from 'react-native';
+import React, { createContext, useState, useEffect } from 'react';
+
+import { getTokenUsingStorage, getTokenUsingCookie } from "~/functions/api/tokenHandling";
 
 interface LoginContextProps {
     loggedIn: boolean;
@@ -23,6 +26,25 @@ interface LoginProviderProps {
 
 const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            const token = Platform.OS === 'android' || Platform.OS === 'ios' ? await getTokenUsingStorage() : getTokenUsingCookie();
+            if (token != "") {
+                setLoggedIn(true);
+            }
+            setLoading(false);
+        }
+        checkLoginStatus();
+    }, [])
+
+    if (loading) {
+        return (
+            <View className="flex-1 justify-center items-center bg-gray-100">
+                <Text className="text-5xl text-rose-800 text-center">Loading...</Text>
+            </View>
+        )
+    }
 
     return (
         <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
