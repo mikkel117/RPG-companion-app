@@ -12,6 +12,9 @@ module.exports = {
         text: "#F4F4F4",
         button: "#0072E9",
         muted: "#7C98A9"
+      },
+      textColor: {
+        DEFAULT: "#F4F4F4",
       }
     },
   },

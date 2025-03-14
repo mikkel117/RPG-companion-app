@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 
 import { useLogin } from '~/contexts/LoginContext';
 
+import Button from '~/components/Button';
+
 import { getUserById } from '~/functions/api/apiUser';
 import { clearCookies, clearTokenUsingStorage } from "~/functions/api/tokenHandling";
 import { userType, CharacterClassEnum, CharacterRaceEnum } from "~/types";
@@ -37,11 +39,7 @@ const UserHome = () => {
         <View className="flex-1">
             <View className="flex-row items-center justify-between w-full">
                 <Text className="text-xl font-bold text-text ml-5">{user?.username}</Text>
-                <Pressable
-                    className="m-2 bg-button rounded-[28px] shadow-md p-2 ml-1.5"
-                    onPressIn={logout}>
-                    <Text className="text-text font-semibold text-center">Log ud</Text>
-                </Pressable>
+                <Button title="Log ud" onPress={logout} />
             </View>
 
             <View className="border-b-4 border-secondary my-4"></View>
@@ -96,8 +94,8 @@ const UserHome = () => {
             </View>
 
             <View className="flex-row items-center justify-between w-full">
-                <Link href="/Camera" className="m-2 bg-button rounded-[28px] shadow-md p-4 w-full text-center">
-                    <Text className="text-text text-lg font-semibold">Kamera</Text>
+                <Link href="/createCharter" className="m-2 bg-button rounded-[28px] shadow-md p-4 w-full text-center">
+                    <Text className="text-text text-lg font-semibold">Opret karakter</Text>
                 </Link>
             </View>
 

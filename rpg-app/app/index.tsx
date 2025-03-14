@@ -6,6 +6,7 @@ import { useLogin } from '~/contexts/LoginContext';
 import { getTokenUsingCookie, getTokenUsingStorage } from '~/functions/api/tokenHandling';
 
 import { Container } from '~/components/Container';
+import Button from '~/components/Button';
 import LoginModal from '~/components/LoginModal';
 import UserHome from '~/components/UserHome';
 
@@ -45,11 +46,7 @@ export default function Home() {
             <View className='
           flex-1 justify-center
           '>
-              <Pressable
-                className="m-2 bg-button rounded-[28px] shadow-md p-4"
-                onPressIn={() => setShowLoginModal(true)}>
-                <Text className="text-text text-lg font-semibold text-center">Login</Text>
-              </Pressable>
+              <Button title="Login" onPress={() => setShowLoginModal(true)} />
             </View>
 
             <View className="flex items-end">
