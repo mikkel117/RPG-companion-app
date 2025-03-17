@@ -3,6 +3,7 @@ import { Link } from "expo-router";
 import React, { useEffect, useState } from "react";
 
 import { useLogin } from '~/contexts/LoginContext';
+import { deleteCharacter } from "~/functions/api/apiCharacter";
 
 import Button from '~/components/Button';
 
@@ -35,6 +36,26 @@ const UserHome = () => {
         setLoggedIn(false);
     }
 
+    const deleteC = async (characterId: number) => {
+        if (!user) return;
+        const response = await deleteCharacter(characterId);
+        if (!response.success) {
+            console.log("something went wrong");
+            return;
+        }
+        else {
+
+            const filteredCharacters = user.characters.filter(character => character.characterId !== characterId);
+            const newUser: userType = {
+                ...user,
+                characters: filteredCharacters,
+                id: user.id,
+                username: user.username
+            };
+            setUser(newUser);
+        }
+    }
+
     return (
         <View className="flex-1">
             <View className="flex-row items-center justify-between w-full">
@@ -49,10 +70,12 @@ const UserHome = () => {
                     user.characters.map((character) => (
                         <View key={character.characterId} className="mb-4 bg-secondary rounded-lg shadow-md p-4">
 
-                            <View className="flex-row">
+                            <View className="flex-row justify-between items-center">
                                 <Link href={`/charter/${character.characterId}`} className="mb-2">
                                     <Text className="text-2xl font-semibold mb-2 text-text">{character.name}</Text>
                                 </Link>
+
+                                <Button title="Slet" onPress={() => deleteC(character.characterId)} width="w-1/6" />
                             </View>
 
                             <View className="justify-evenly items-center bg-gray-500 rounded-md p-3">

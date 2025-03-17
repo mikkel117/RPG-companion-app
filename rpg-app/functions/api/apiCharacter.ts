@@ -120,3 +120,26 @@ export async function createCharterApi(character: createCharterType) {
         
     }
 }
+
+
+export async function deleteCharacter(id: number) {
+    const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
+    try {
+        const response = await fetch(`${API_URL}/api/Character/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            return { success: false };
+        }
+        return { success: true };
+        
+        
+    } catch (error: any) {
+        return { success: false };
+        
+    }
+}

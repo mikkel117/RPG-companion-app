@@ -1,5 +1,5 @@
 import { Text, View, TextInput, ScrollView, Switch, Pressable, Platform } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import React, { useState, useRef } from 'react'
 
 import { Picker } from '@react-native-picker/picker';
@@ -24,6 +24,7 @@ export default function createCharter() {
     const [charisma, setCharisma] = useState<number>(0);
     const [wisdom, setWisdom] = useState<number>(0);
     const [isEnabled, setIsEnabled] = useState<boolean>(false);
+    const router = useRouter();
 
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -55,8 +56,7 @@ export default function createCharter() {
 
 
         createCharterApi(character);
-
-
+        router.replace('/');
     }
 
     return (

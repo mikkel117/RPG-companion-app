@@ -7,7 +7,7 @@ export async function getUserById(){
     const token = Platform.OS === 'android' ? await getTokenUsingStorage() : getTokenUsingCookie();
     const id = Platform.OS === 'android' ? await getUserIdUsingStorage() : getUserIdUsingCookie();
     try {
-        const response = await fetch(`${API_URL}/api/User/1`, {
+        const response = await fetch(`${API_URL}/api/User/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
