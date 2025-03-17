@@ -11,6 +11,8 @@ import UpdateLevelModal from "~/components/models/UpdateLevelModal";
 import { getCharacterById, updateStats } from '~/functions/api/apiCharacter';
 import { makeARoll } from '~/functions/roll';
 
+import Button from "~/components/Button";
+
 import { characterWithRelationsType, CharacterClassEnum, CharacterRaceEnum } from '~/types';
 
 type rollType = {
@@ -93,9 +95,7 @@ export default function page() {
                 </View>
 
                 <View className="p-4 flex justify-center items-end">
-                    <Pressable className="m-2 bg-button rounded-[28px] shadow-md p-4" onPress={saveStats}>
-                        <Text className="text-2xl font-semibold text-text">Gem</Text>
-                    </Pressable>
+                    <Button title="Gem" onPress={saveStats} />
                 </View>
 
                 <View className="flex flex-row flex-wrap justify-between p-4 gap-1">

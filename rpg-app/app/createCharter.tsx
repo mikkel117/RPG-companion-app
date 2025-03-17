@@ -1,4 +1,4 @@
-import { Text, View, TextInput, ScrollView, Switch, Pressable, Button, Platform } from 'react-native';
+import { Text, View, TextInput, ScrollView, Switch, Pressable, Platform } from 'react-native';
 import { Link } from 'expo-router';
 import React, { useState, useRef } from 'react'
 
@@ -12,6 +12,7 @@ import { getUserIdUsingCookie, getUserIdUsingStorage } from '~/functions/api/tok
 import { Container } from '~/components/Container';
 import { ClassArray, RaceArray, CharacterClassEnum, CharacterRaceEnum } from '~/types';
 import { rollStat } from '~/functions/roll';
+import Button from '~/components/Button';
 
 export default function createCharter() {
     const [selectedRace, setSelectedRace] = useState<keyof typeof CharacterRaceEnum | undefined>();
@@ -61,21 +62,21 @@ export default function createCharter() {
     return (
         <Container>
             <Link href="/">
-                <Text className='text-2xl'>Tilbage</Text>
+                <Text className='text-2xl text-text'>Tilbage</Text>
             </Link>
-            <Text className='text-center text-3xl'>Lav karkter</Text>
+            <Text className='text-center text-3xl text-text'>Lav karkter</Text>
             <ScrollView>
                 <View>
-                    <Text className='text-xl'>Navn</Text>
+                    <Text className='text-xl text-text'>Navn</Text>
                     <TextInput
                         className="m-2 text-xl rounded border p-4 text-black border-black bg-white"
                         onChangeText={(text) => setName(text)}
                     />
                 </View>
 
-                <Text className='text-xl'>Race</Text>
+                <Text className='text-xl text-text'>Race</Text>
 
-                <View className='m-2 border '>
+                <View className='m-2 border'>
                     <Picker
                         ref={pickerRef}
                         selectedValue={selectedRace}
@@ -91,7 +92,7 @@ export default function createCharter() {
                 </View>
 
 
-                <Text className='text-xl'>Klasse</Text>
+                <Text className='text-xl text-text'>Klasse</Text>
                 <View className='m-2 border'>
                     <Picker
                         ref={pickerRef}
@@ -119,9 +120,9 @@ export default function createCharter() {
                 {!isEnabled ? (
                     <View className='flex flex-wrap m-2'>
                         <View className=' w-full'>
-                            <Text className='text-xl'>Intelligence</Text>
+                            <Text className='text-xl text-text'>Intelligence</Text>
                             <TextInput
-                                className=" text-xl rounded border p-4 text-black border-black bg-white w-full"
+                                className=" text-xl rounded border p-4 border-black bg-white w-full"
                                 keyboardType='numeric'
                                 onChangeText={(text) => setIntelligence(parseInt(text.replace(/[^0-9]/g, '')))}
                                 value={intelligence.toString()}
@@ -129,9 +130,9 @@ export default function createCharter() {
                         </View>
 
                         <View>
-                            <Text className='text-xl'>Strength</Text>
+                            <Text className='text-xl text-text'>Strength</Text>
                             <TextInput
-                                className=" text-xl rounded border p-4 text-black border-black bg-white w-full"
+                                className=" text-xl rounded border p-4 border-black bg-white w-full"
                                 keyboardType='numeric'
                                 onChangeText={(text) => setStrength(parseInt(text.replace(/[^0-9]/g, '')))}
                                 value={strength.toString()}
@@ -140,9 +141,9 @@ export default function createCharter() {
 
 
                         <View >
-                            <Text className='text-xl'>Dexterity</Text>
+                            <Text className='text-xl text-text'>Dexterity</Text>
                             <TextInput
-                                className=" text-xl rounded border p-4 text-black border-black bg-white w-full"
+                                className=" text-xl rounded border p- border-black bg-white w-full"
                                 keyboardType='numeric'
                                 onChangeText={(text) => setDexterity(parseInt(text.replace(/[^0-9]/g, '')))}
                                 value={dexterity.toString()}
@@ -150,9 +151,9 @@ export default function createCharter() {
                         </View>
 
                         <View>
-                            <Text className='text-xl'>Charisma</Text>
+                            <Text className='text-xl text-text'>Charisma</Text>
                             <TextInput
-                                className=" text-xl rounded border p-4 text-black border-black bg-white w-full"
+                                className=" text-xl rounded border p-4 border-black bg-white w-full"
                                 keyboardType='numeric'
                                 onChangeText={(text) => setCharisma(parseInt(text.replace(/[^0-9]/g, '')))}
                                 value={charisma.toString()}
@@ -160,9 +161,9 @@ export default function createCharter() {
                         </View>
 
                         <View>
-                            <Text className='text-xl'>Wisdom</Text>
+                            <Text className='text-xl text-text'>Wisdom</Text>
                             <TextInput
-                                className=" text-xl rounded border p-4 text-black border-black bg-white w-full"
+                                className=" text-xl rounded border p-4 border-black bg-white w-full"
                                 keyboardType='numeric'
                                 onChangeText={(text) => setWisdom(parseInt(text.replace(/[^0-9]/g, '')))}
                                 value={wisdom.toString()}
@@ -173,40 +174,40 @@ export default function createCharter() {
                 ) : (
                     <View className='flex flex-wrap m-2 gap-5'>
                         <View className='w-full'>
-                            <Text className='text-xl'>Intelligence {intelligence}</Text>
+                            <Text className='text-xl text-text'>Intelligence {intelligence}</Text>
                             <Button title='rull' onPress={() => setIntelligence(rollStat("drop-lowest"))} />
                         </View>
 
-                        <View className='border border-black'></View>
+                        <View className='border border-secondary'></View>
 
                         <View>
-                            <Text className='text-xl'>Strength {strength}</Text>
+                            <Text className='text-xl text-text'>Strength {strength}</Text>
                             <Button title='rull' onPress={() => setStrength(rollStat("drop-lowest"))} />
                         </View>
 
-                        <View className='border border-black'></View>
+                        <View className='border border-secondary'></View>
 
                         <View>
-                            <Text className='text-xl'>Dexterity {dexterity}</Text>
+                            <Text className='text-xl text-text'>Dexterity {dexterity}</Text>
                             <Button title='rull'
                                 onPress={() => setDexterity(rollStat("drop-lowest"))} />
                         </View>
 
-                        <View className='border border-black'></View>
+                        <View className='border border-secondary'></View>
 
                         <View>
-                            <Text className='text-xl'>Charisma {charisma}</Text>
+                            <Text className='text-xl text-text'>Charisma {charisma}</Text>
                             <Button title='rull' onPress={() => setCharisma(rollStat("drop-lowest"))} />
                         </View>
 
-                        <View className='border border-black'></View>
+                        <View className='border border-secondary'></View>
 
                         <View>
-                            <Text className='text-xl'>Wisdom {wisdom}</Text>
+                            <Text className='text-xl text-text'>Wisdom {wisdom}</Text>
                             <Button title='rull' onPress={() => setWisdom(rollStat("drop-lowest"))} />
                         </View>
 
-                        <View className='border border-black mb-5'></View>
+                        <View className='border border-secondary mb-5'></View>
                     </View>
 
                 )}
