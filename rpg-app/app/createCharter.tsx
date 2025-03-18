@@ -64,7 +64,7 @@ export default function createCharter() {
             <Link href="/">
                 <Text className='text-2xl text-text'>Tilbage</Text>
             </Link>
-            <Text className='text-center text-3xl text-text'>Lav karkter</Text>
+            <Text className='text-center text-3xl text-text'>Opret  karkter</Text>
             <ScrollView>
                 <View>
                     <Text className='text-xl text-text'>Navn</Text>
@@ -83,6 +83,7 @@ export default function createCharter() {
                         onValueChange={(itemValue, itemIndex) =>
                             setSelectedRace(itemValue)
                         }
+                        style={Platform.OS === 'android' ? { color: 'white' } : {}}
                     >
                         <Picker.Item label='Vælg en rase' value={undefined} />
                         {RaceArray.map((value, index) => (
@@ -100,6 +101,7 @@ export default function createCharter() {
                         onValueChange={(itemValue, itemIndex) =>
                             setSelectedClass(itemValue)
                         }
+                        style={Platform.OS === 'android' ? { color: 'white' } : {}}
                     >
                         <Picker.Item label='Vælg en klass' value={undefined} />
                         {ClassArray.map((value, index) => (
