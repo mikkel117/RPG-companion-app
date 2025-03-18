@@ -105,7 +105,7 @@ const UserHome = () => {
                             </View>
                         </View>
                     ))) : (
-                    <Text className="text-center text-2xl font-semibold">Der bliv ikke fundet nogle karkter</Text>
+                    <Text className="text-center text-2xl font-semibold text-text">Der bliv ikke fundet nogle karkter</Text>
                 )
 
                 }
